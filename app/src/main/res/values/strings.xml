@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MacroUp</string>
+    <string name="card_top_title">Na dúvida do que comer?</string>
+    <string name="generate_button">Gerar</string>
+    <string name="breakfast">Café da manhã</string>
+    <string name="snack">Lanche</string>
+    <string name="lunch_and_dinner">Almoço e Jantar</string>
+    <string name="lowcarb">Baixo Carboidrato</string>
+    <string name="high_protein">Alta Proteína</string>
+    <string name="pre_workout">Pré-treino</string>
+    <string name="post_workout">Pós-treino</string>
+    <string name="vegan">Vegano</string>
+    <string name="vegetarian">Vegetariano</string>
+    <string name="fit_dessert">Sobremesas Fitness</string>
+    <string name="favorites">Escolhidas para você!</string>
+    <string name="category">Categoria:</string>
+    <string name="time">Tempo:</string>
+    <string name="ingredients">Ingredientes</string>
+    <string name="instructions">Instruções</string>
+</resources>

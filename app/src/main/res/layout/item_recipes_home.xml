@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/recipeImage"
+                android:background="@drawable/card_view_bg"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_breakfast"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundimageview" />
+
+            <TextView
+                android:id="@+id/recipeTitle"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/displayfont"
+                android:text="Nome da Receitas"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recipeImage" />
+
+            <TextView
+                android:id="@+id/recipeCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp"
+                android:text="Café da manhã 2.0"
+                app:layout_constraintStart_toEndOf="@+id/categoryIconImage"
+                app:layout_constraintTop_toBottomOf="@+id/recipeTitle" />
+
+            <ImageView
+                android:id="@+id/categoryIconImage"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="@+id/recipeTitle"
+                app:layout_constraintTop_toBottomOf="@+id/recipeTitle"
+                app:srcCompat="@drawable/icon_category" />
+
+            <TextView
+                android:id="@+id/recipeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:text="97 min"
+                app:layout_constraintStart_toEndOf="@+id/timeIconImage"
+                app:layout_constraintTop_toBottomOf="@+id/categoryIconImage" />
+
+
+            <ImageView
+                android:id="@+id/timeIconImage"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/recipeTitle"
+                app:layout_constraintTop_toBottomOf="@+id/categoryIconImage"
+                app:srcCompat="@drawable/icon_clock" />
+
+            <TextView
+                android:id="@+id/recipeCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"
+                android:text="900 kcal"
+                app:layout_constraintStart_toStartOf="@+id/recipeTime"
+                app:layout_constraintTop_toBottomOf="@+id/recipeTime" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="9dp"
+                app:layout_constraintStart_toStartOf="@+id/timeIconImage"
+                app:layout_constraintTop_toBottomOf="@+id/timeIconImage"
+                app:srcCompat="@drawable/icon_calories" />
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>
+

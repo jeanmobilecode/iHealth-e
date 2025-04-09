@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextViewFontFamily" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/displayfont</item>
+    </style>
+
+    <style name="roundimageview" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="BottomNavTextStyle">
+        <item name="android:textSize">10sp</item> <!-- Reduz o tamanho do texto -->
+        <item name="android:paddingTop">0dp</item> <!-- Remove espaços extras -->
+    </style>
+
+
+</resources>

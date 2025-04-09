@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "165876551609",
+    "project_id": "macrosup-5a2c5",
+    "storage_bucket": "macrosup-5a2c5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165876551609:android:4edce3d6bbf764af7a7068",
+        "android_client_info": {
+          "package_name": "com.example.macroup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrLdpiJqqVGmFVJu0CzTalMc3oNRiPjiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,4 +17,5 @@
     <string name="time">Tempo:</string>
     <string name="ingredients">Ingredientes</string>
     <string name="instructions">Instruções</string>
+    <string name="recyclerView" />
 </resources>

@@ -52,7 +52,7 @@ class ShoppingActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     startActivity(Intent(this, MainActivity::class.java))
-                    //overridePendingTransition(0, 0) Remove animação de transição
+                    overridePendingTransition(0, 0)
                     finish()
                     true
                 }

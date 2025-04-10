@@ -1,5 +1,6 @@
 package com.example.macroup
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.example.macroup.recyclerView.Recipe
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SearchActivity : AppCompatActivity() {
 
@@ -43,10 +45,12 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                searchRecipes(newText ?: "") // atualiza conforme o usuário digita
+                searchRecipes(newText ?: "")
                 return true
             }
         })
+
+        setBottomViewNavegation()
     }
 
     private fun searchRecipes(query: String) {
@@ -66,12 +70,38 @@ class SearchActivity : AppCompatActivity() {
                         recipeList.add(recipe)
                     }
                 }
-
                 recipeAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Erro ao buscar receitas", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun setBottomViewNavegation(){
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.nav_search
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_search -> true
+
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+
+                R.id.nav_fav -> {
+                    startActivity(Intent(this, ShoppingActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
 

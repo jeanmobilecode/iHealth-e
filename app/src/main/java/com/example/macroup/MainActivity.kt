@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
-
         recipeListViewModel.loadAllRecipes()
 
         observeRecipes()
@@ -92,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setBottomViewNavegation(){
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.nav_home
@@ -103,6 +101,13 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_search -> {
                     startActivity(Intent(this, SearchActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+
+                R.id.nav_random -> {
+                    startActivity(Intent(this, RandomRecipesActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
                     true

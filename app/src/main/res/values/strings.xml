@@ -18,4 +18,5 @@
     <string name="ingredients">Ingredientes</string>
     <string name="instructions">Instruções</string>
     <string name="recyclerView" />
+    <string name="new_recipe">Nova receita</string>
 </resources>

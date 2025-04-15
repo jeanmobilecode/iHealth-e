@@ -92,6 +92,13 @@ class SearchActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.nav_random -> {
+                    startActivity(Intent(this, RandomRecipesActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+
                 R.id.nav_fav -> {
                     startActivity(Intent(this, ShoppingActivity::class.java))
                     overridePendingTransition(0, 0)

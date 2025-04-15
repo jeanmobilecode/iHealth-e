@@ -21,6 +21,7 @@ data class Instructions(
 )
 
 data class Recipe(
+    val randomIndex: Int = (0..1000000).random(),
     val id: String = UUID.randomUUID().toString(),
     val time: String = "",
     val title: String = "",
@@ -35,6 +36,7 @@ data class Recipe(
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
+        randomIndex = parcel.readInt(),
         id = parcel.readString() ?: UUID.randomUUID().toString(),
         time = parcel.readString() ?: "",
         title = parcel.readString() ?: "",
@@ -49,6 +51,7 @@ data class Recipe(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(randomIndex)
         parcel.writeString(id)
         parcel.writeString(time)
         parcel.writeString(title)

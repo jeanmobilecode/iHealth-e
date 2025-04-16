@@ -13,6 +13,7 @@ import com.example.macroup.R
 import com.example.macroup.RecipeDetailsActivity
 
 
+
 class AdapterRecipe(private val context: Context, var recipeList: MutableList<Recipe>) : RecyclerView.Adapter<AdapterRecipe.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -21,6 +22,11 @@ class AdapterRecipe(private val context: Context, var recipeList: MutableList<Re
         val recipeTime: TextView = itemView.findViewById(R.id.recipeTime)
         val recipeCategory: TextView = itemView.findViewById(R.id.recipeCategory)
         val recipeCalories: TextView = itemView.findViewById(R.id.recipeCalories)
+        val protein: TextView = itemView.findViewById(R.id.descriptionProtein)
+        val carbs: TextView = itemView.findViewById(R.id.descriptionCarbs)
+        val fat: TextView = itemView.findViewById(R.id.descriptionFat)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -31,10 +37,13 @@ class AdapterRecipe(private val context: Context, var recipeList: MutableList<Re
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipeList[position]
         holder.recipeTitle.text = recipe.title
-        holder.recipeTime.text = "${recipe.time} "
+        holder.recipeTime.text = "${recipe.time} min"
         holder.recipeCategory.text = recipe.category
         holder.recipeImage.setImageResource(recipe.image)
-        holder.recipeCalories.text = "${recipe.kcal} calorias"
+        holder.recipeCalories.text = "${recipe.kcal} kcal"
+        holder.protein.text = recipe.protein
+        holder.carbs.text = recipe.carbohydrates
+        holder.fat.text = recipe.fat
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, RecipeDetailsActivity::class.java)

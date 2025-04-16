@@ -50,13 +50,29 @@ class ShoppingActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.nav_fav -> true
+
+                R.id.nav_search -> {
+                    startActivity(Intent(this, SearchActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+
+                R.id.nav_random -> {
+                    startActivity(Intent(this, RandomRecipesActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    finish()
+                    true
+                }
+
                 R.id.nav_home -> {
                     startActivity(Intent(this, MainActivity::class.java))
                     overridePendingTransition(0, 0)
                     finish()
                     true
                 }
-                R.id.nav_fav -> true // Já estamos nessa Activity
+
                 else -> false
             }
         }

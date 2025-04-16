@@ -13,6 +13,7 @@ import com.example.macroup.recyclerView.AdapterRecipe
 import com.example.macroup.recyclerView.Category
 import com.example.macroup.recyclerView.CategoryAdapter
 import androidx.activity.viewModels
+import com.example.macroup.recyclerView.Ingredients
 import com.example.macroup.recyclerView.Recipe
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -36,6 +37,36 @@ class MainActivity : AppCompatActivity() {
         observeRecipes()
 
         setBottomViewNavegation()
+
+        val recipe = listOf(
+            Recipe(
+                title = "Panqueca Proteica de Banana",
+                time = "15",
+                category = "Café da manhã",
+                image = R.drawable.img_pasta,
+                kcal = "320",
+                protein = "18g",
+                carbohydrates = "35g",
+                fat = "10g",
+                ingredients = listOf(
+                    Ingredients(name = "Banana madura", quantity = "1 unidade"),
+                    Ingredients(name = "Ovo", quantity = "1 unidade"),
+                    Ingredients(name = "Aveia em flocos", quantity = "2 colheres de sopa"),
+                    Ingredients(name = "Canela em pó", quantity = "1/2 colher de chá"),
+                    Ingredients(name = "Óleo de coco", quantity = "1 colher de chá")
+                ),
+                instructions = listOf(
+                    "Amasse a banana com um garfo.",
+                    "Adicione o ovo, a aveia e a canela. Misture bem.",
+                    "Aqueça uma frigideira com o óleo de coco.",
+                    "Despeje a massa formando uma panqueca.",
+                    "Cozinhe em fogo baixo por 2-3 minutos de cada lado.",
+                    "Sirva com mel, frutas ou pasta de amendoim."
+                )
+            )
+        )
+
+        recipeListViewModel.addRecipes(recipe)
 
     }
 

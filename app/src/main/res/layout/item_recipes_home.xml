@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="330dp"
         app:cardCornerRadius="10dp"
         android:elevation="20dp">
 
@@ -19,12 +19,11 @@
             android:layout_height="match_parent"
             >
 
-
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/recipeImage"
                 android:background="@drawable/card_view_bg"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="150dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_breakfast"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="12dp"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:text="97 min"
                 app:layout_constraintStart_toEndOf="@+id/timeIconImage"
                 app:layout_constraintTop_toBottomOf="@+id/categoryIconImage" />
@@ -92,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:text="900 kcal"
                 app:layout_constraintStart_toStartOf="@+id/recipeTime"
                 app:layout_constraintTop_toBottomOf="@+id/recipeTime" />
@@ -105,9 +104,58 @@
                 app:layout_constraintTop_toBottomOf="@+id/timeIconImage"
                 app:srcCompat="@drawable/icon_calories" />
 
+            <ImageView
+                android:id="@+id/iconProtein"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/descriptionProtein"
+                app:layout_constraintTop_toTopOf="@+id/recipeCategory"
+                app:srcCompat="@drawable/icon_protein" />
 
+            <TextView
+                android:id="@+id/descriptionProtein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="60dp"
+                android:text="13 mg"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iconProtein" />
 
+            <ImageView
+                android:id="@+id/iconCarbs"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintStart_toStartOf="@+id/iconProtein"
+                app:layout_constraintTop_toTopOf="@+id/recipeTime"
+                app:srcCompat="@drawable/icon_carbs" />
 
+            <TextView
+                android:id="@+id/descriptionCarbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 mg"
+                android:textSize="17sp"
+                app:layout_constraintStart_toStartOf="@+id/descriptionProtein"
+                app:layout_constraintTop_toTopOf="@+id/iconCarbs" />
+
+            <ImageView
+                android:id="@+id/iconFat"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintStart_toStartOf="@+id/iconCarbs"
+                app:layout_constraintTop_toTopOf="@+id/recipeCalories"
+                app:srcCompat="@drawable/icon_fat" />
+
+            <TextView
+                android:id="@+id/descriptionFat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 mg"
+                android:textSize="17sp"
+                app:layout_constraintStart_toStartOf="@+id/descriptionCarbs"
+                app:layout_constraintTop_toTopOf="@+id/iconFat" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

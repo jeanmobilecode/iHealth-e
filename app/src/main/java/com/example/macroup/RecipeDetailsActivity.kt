@@ -34,16 +34,24 @@ class RecipeDetailsActivity : AppCompatActivity() {
         recipeDetailsViewModel.setRecipeId(recipe.id)
 
         // Recebendo a referência de cada item do layout
-        val recipeTitle: TextView = findViewById(R.id.recipeTitle)
+        val title: TextView = findViewById(R.id.recipeTitle)
         val recipeImage: ImageView = findViewById(R.id.recipeImage)
-        val recipeCategory: TextView = findViewById(R.id.recipeCategory)
-        val recipeTime: TextView = findViewById(R.id.recipeTime)
+        val kcal : TextView = findViewById(R.id.kcalText)
+        val protein : TextView = findViewById(R.id.proteinText)
+        val carbs : TextView = findViewById(R.id.carbsText)
+        val fat: TextView = findViewById(R.id.fatText)
+        val time: TextView = findViewById(R.id.clockText)
+
 
         // Adicionando um valor a essas referências
-        recipeTitle.text = recipe.title
+        title.text = recipe.title
         recipeImage.setImageResource(recipe.image)
-        recipeCategory.text = recipe.category
-        recipeTime.text = "${recipe.time}"
+        kcal.text = recipe.kcal
+        protein.text = recipe.protein
+        carbs.text = recipe.carbohydrates
+        fat.text = recipe.fat
+        time.text = "${recipe.time}"
+
 
         // Configuração da RecyclerView de ingredientes
         ingredientsRecyclerView = findViewById(R.id.ingredients)

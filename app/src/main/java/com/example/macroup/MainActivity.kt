@@ -3,6 +3,7 @@ package com.example.macroup
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -13,7 +14,6 @@ import com.example.macroup.recyclerView.AdapterRecipe
 import com.example.macroup.recyclerView.Category
 import com.example.macroup.recyclerView.CategoryAdapter
 import androidx.activity.viewModels
-import com.example.macroup.recyclerView.Ingredients
 import com.example.macroup.recyclerView.Recipe
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private val recipeListViewModel: MainActivityViewModel by viewModels() // Inicializando a ViewModel
     private lateinit var recipeAdapter: AdapterRecipe
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,36 +37,17 @@ class MainActivity : AppCompatActivity() {
 
         setBottomViewNavegation()
 
-        val recipe = listOf(
-            Recipe(
-                title = "Panqueca Proteica de Banana",
-                time = "15",
-                category = "Café da manhã",
-                image = R.drawable.img_pasta,
-                kcal = "320",
-                protein = "18g",
-                carbohydrates = "35g",
-                fat = "10g",
-                ingredients = listOf(
-                    Ingredients(name = "Banana madura", quantity = "1 unidade"),
-                    Ingredients(name = "Ovo", quantity = "1 unidade"),
-                    Ingredients(name = "Aveia em flocos", quantity = "2 colheres de sopa"),
-                    Ingredients(name = "Canela em pó", quantity = "1/2 colher de chá"),
-                    Ingredients(name = "Óleo de coco", quantity = "1 colher de chá")
-                ),
-                instructions = listOf(
-                    "Amasse a banana com um garfo.",
-                    "Adicione o ovo, a aveia e a canela. Misture bem.",
-                    "Aqueça uma frigideira com o óleo de coco.",
-                    "Despeje a massa formando uma panqueca.",
-                    "Cozinhe em fogo baixo por 2-3 minutos de cada lado.",
-                    "Sirva com mel, frutas ou pasta de amendoim."
-                )
-            )
-        )
+        generateRandomRecipe()
 
-        recipeListViewModel.addRecipes(recipe)
+    }
 
+    private fun generateRandomRecipe(){
+        val randomRecipeButton: Button = findViewById(R.id.card_view_button)
+
+        randomRecipeButton.setOnClickListener {
+            val intent = Intent(this, RandomRecipesActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun splashScreen(){
@@ -97,7 +77,11 @@ class MainActivity : AppCompatActivity() {
             Category(R.string.fit_dessert, R.drawable.img_fit_dessert)
         )
 
-        categoryRecyclerView.adapter = CategoryAdapter(categories) {
+        categoryRecyclerView.adapter = CategoryAdapter(categories) { category ->
+
+            recipeListViewModel.loadRecipesByCategory(getString(category.categoryName))
+
+            Log.i("keyMSG","${category.categoryName}")
 
         }
 

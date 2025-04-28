@@ -58,6 +58,7 @@ class SearchActivity : AppCompatActivity() {
         db.collection("recipes")
             .get()
             .addOnSuccessListener { result ->
+
                 recipeList.clear()
 
                 for (document in result) {
@@ -70,7 +71,9 @@ class SearchActivity : AppCompatActivity() {
                         recipeList.add(recipe)
                     }
                 }
+
                 recipeAdapter.notifyDataSetChanged()
+
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Erro ao buscar receitas", Toast.LENGTH_SHORT).show()

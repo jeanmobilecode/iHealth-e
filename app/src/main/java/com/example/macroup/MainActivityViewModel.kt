@@ -50,6 +50,23 @@ class MainActivityViewModel : ViewModel() {
     }
 
 
+    fun loadRecipesByCategory(category: String) {
+        db.collection("recipes")
+            .whereEqualTo("category", category)
+            .get()
+            .addOnSuccessListener { result ->
+                val recipes = mutableListOf<Recipe>()
+                for (document in result) {
+                    val recipe = document.toObject(Recipe::class.java)
+                    recipes.add(recipe)
+                }
+                _recipeList.value = recipes
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Firestore", "Erro ao carregar receitas: ${exception.message}")
+            }
+    }
+
     fun loadAllRecipes() {
         db.collection("recipes")
             .get()
@@ -60,7 +77,6 @@ class MainActivityViewModel : ViewModel() {
                     recipes.add(recipe)
                 }
                 _recipeList.setValue(recipes)
-                Log.i("log_recipeList","posted: ${_recipeList.value}")
             }
 
             .addOnFailureListener { exception ->

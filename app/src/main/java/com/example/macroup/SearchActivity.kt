@@ -1,7 +1,10 @@
 package com.example.macroup
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -13,6 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class SearchActivity : AppCompatActivity() {
 
@@ -20,6 +25,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipeAdapter: AdapterRecipe
     private val recipeList = mutableListOf<Recipe>() // modelo que você já usa
+    private var selectedCategory: String = "Todas"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +35,37 @@ class SearchActivity : AppCompatActivity() {
 
         searchRecipes("")
 
-        searchView = findViewById(R.id.search_view)
+        //Codigo Adapter Receitas Resultado Pesquisa
         recyclerView = findViewById(R.id.recycler_view)
-
-        searchView.isIconified = false
-
         recipeAdapter = AdapterRecipe(this, recipeList)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recipeAdapter
+
+        //Chip Group
+        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup)
+
+        chipGroup.setOnCheckedChangeListener { group, checkedId ->
+            val chip = group.findViewById<Chip>(checkedId)
+            selectedCategory = chip?.text?.toString() ?: "Todas"
+            searchRecipes(searchView.query.toString())
+        }
+
+
+        //Codigo searchView
+        searchView = findViewById(R.id.search_view)
+        searchView.isIconified = false
+        searchView.queryHint = getString(R.string.search_hint)
+
+        val plate = searchView.findViewById<View>(androidx.appcompat.R.id.search_plate)
+        plate?.setBackgroundColor(Color.TRANSPARENT)
+
+        val closeButton = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+
+        closeButton.setOnClickListener {
+            // Evita o comportamento padrão
+            searchView.setQuery("", false)
+            searchView.clearFocus() // Remove o foco para não abrir o teclado
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -58,27 +87,26 @@ class SearchActivity : AppCompatActivity() {
         db.collection("recipes")
             .get()
             .addOnSuccessListener { result ->
-
                 recipeList.clear()
 
                 for (document in result) {
                     val recipe = document.toObject(Recipe::class.java)
 
-                    val matchesQuery = recipe.title.contains(query, ignoreCase = true) ||
-                            recipe.category.contains(query, ignoreCase = true)
+                    val matchesQuery = recipe.title.contains(query, ignoreCase = true)
+                    val matchesCategory = selectedCategory == "Todas" || recipe.category.equals(selectedCategory, ignoreCase = true)
 
-                    if (query.isBlank() || matchesQuery) {
+                    if ((query.isBlank() || matchesQuery) && matchesCategory) {
                         recipeList.add(recipe)
                     }
                 }
 
                 recipeAdapter.notifyDataSetChanged()
-
             }
-            .addOnFailureListener { e ->
+            .addOnFailureListener {
                 Toast.makeText(this, "Erro ao buscar receitas", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     private fun setBottomViewNavegation(){
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)

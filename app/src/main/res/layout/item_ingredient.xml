@@ -9,9 +9,13 @@
 
     <CheckBox
         android:id="@+id/checkBoxIngredient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp" />
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="8dp"
+        android:button="@null"
+        android:background="@drawable/icon_unchecked_checkbox"
+        android:padding="12dp"
+        />
 
     <TextView
         android:id="@+id/ingredientName"

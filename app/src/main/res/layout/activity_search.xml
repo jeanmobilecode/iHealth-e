@@ -1,34 +1,184 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/gray"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.MacroUp.Splash"
+    >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         android:orientation="vertical"
-        android:layout_marginBottom="40dp"
         >
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:iconifiedByDefault="false"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="10dp"
+                android:elevation="6dp"
+                android:background="@drawable/search_background"
+                android:queryHint="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_by_cateogry"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            android:queryHint="Buscar por nome ou categoria" />
+            android:layout_margin="10dp"
+            app:singleSelection="true"
+            app:selectionRequired="false"
+            app:chipSpacing="8dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Todas" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCafe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Café da manhã" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLanche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+
+                android:text="Lanche" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAlmocoJantar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+
+                android:text="Almoço e Jantar" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipBaixoCarbo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+
+                android:text="Baixo Carboidrato" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAltaProteina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Alta Proteína" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPreTreino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Pré-treino" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPosTreino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Pós-treino" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipVegano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Vegano" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipVegetariano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Vegetariano" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSobremesas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_background_selector"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:textColor="@color/chip_text_color_selector"
+                android:text="Sobremesas Fitness" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_results"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/item_recipes_home"
+         />
 
     </LinearLayout>
 
-
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

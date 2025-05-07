@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -49,6 +50,11 @@ class RandomRecipesActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     private fun setID(){
         img = findViewById(R.id.recipeImage)
         title = findViewById(R.id.recipeTitle)
@@ -76,7 +82,11 @@ class RandomRecipesActivity : AppCompatActivity() {
                 protein.text = recipe.protein
                 carbs.text = recipe.carbohydrates
                 fat.text = recipe.fat
-                img.setImageResource(recipe.image)
+
+                val imageResId = img.context.resources.getIdentifier(
+                    recipe.image, "drawable", img.context.packageName
+                )
+                img.setImageResource(imageResId)
 
                 // Clique no CardView leva para os detalhes
                 cardView.setOnClickListener {

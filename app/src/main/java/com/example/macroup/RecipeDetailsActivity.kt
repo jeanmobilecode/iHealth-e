@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         recipeDetailsViewModel.setRecipeId(recipe.id)
 
         // Recebendo a referência de cada item do layout
+
         val title: TextView = findViewById(R.id.recipeTitle)
         val recipeImage: ImageView = findViewById(R.id.recipeImage)
         val kcal : TextView = findViewById(R.id.kcalText)
@@ -45,12 +47,25 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
         // Adicionando um valor a essas referências
         title.text = recipe.title
-        recipeImage.setImageResource(recipe.image)
+
+        val imageResId = recipeImage.context.resources.getIdentifier(
+            recipe.image, "drawable", recipeImage.context.packageName
+        )
+        recipeImage.setImageResource(imageResId)
+
         kcal.text = recipe.kcal
         protein.text = recipe.protein
         carbs.text = recipe.carbohydrates
         fat.text = recipe.fat
         time.text = "${recipe.time}"
+
+        //toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "" // opcional
+
+        // Habilita a seta de voltar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         // Configuração da RecyclerView de ingredientes
@@ -82,6 +97,11 @@ class RecipeDetailsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun onStop() {

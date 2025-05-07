@@ -2,8 +2,9 @@ package com.example.macroup
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -14,8 +15,12 @@ import com.example.macroup.recyclerView.AdapterRecipe
 import com.example.macroup.recyclerView.Category
 import com.example.macroup.recyclerView.CategoryAdapter
 import androidx.activity.viewModels
+import com.example.macroup.recyclerView.Ingredients
 import com.example.macroup.recyclerView.Recipe
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         splashScreen()
         setContentView(R.layout.activity_main)
 
+
         setupRecyclerView()
 
         recipeListViewModel.loadAllRecipes()
@@ -39,10 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         generateRandomRecipe()
 
+
+
     }
 
     private fun generateRandomRecipe(){
         val randomRecipeButton: Button = findViewById(R.id.card_view_button)
+
 
         randomRecipeButton.setOnClickListener {
             val intent = Intent(this, RandomRecipesActivity::class.java)
@@ -81,8 +90,6 @@ class MainActivity : AppCompatActivity() {
 
             recipeListViewModel.loadRecipesByCategory(getString(category.categoryName))
 
-            Log.i("keyMSG","${category.categoryName}")
-
         }
 
         //Home Recipes Recycler View
@@ -101,7 +108,6 @@ class MainActivity : AppCompatActivity() {
             for (recipe in recipes){
                 newRecipes.add(recipe)
             }
-            Log.i("log_newRecipes","$newRecipes")
             recipeAdapter.updateList(newRecipes)
         }
     }

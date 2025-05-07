@@ -15,8 +15,6 @@ class MainActivityViewModel : ViewModel() {
     private val _recipeList = MutableLiveData<List<Recipe>>()
     val recipeList: LiveData<List<Recipe>> = _recipeList
 
-
-
     fun addRecipes(recipeList: List<Recipe>) {
         //Criamos um batch para agrupar as operações e evitar várias chamadas no fireStore
         val batch = db.batch()
@@ -48,7 +46,6 @@ class MainActivityViewModel : ViewModel() {
                 Log.e("addRecipe", "Erro ao adicionar as receitas", it)
             }
     }
-
 
     fun loadRecipesByCategory(category: String) {
         db.collection("recipes")

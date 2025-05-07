@@ -39,11 +39,15 @@ class AdapterRecipe(private val context: Context, var recipeList: MutableList<Re
         holder.recipeTitle.text = recipe.title
         holder.recipeTime.text = "${recipe.time} min"
         holder.recipeCategory.text = recipe.category
-        holder.recipeImage.setImageResource(recipe.image)
         holder.recipeCalories.text = "${recipe.kcal} kcal"
         holder.protein.text = recipe.protein
         holder.carbs.text = recipe.carbohydrates
         holder.fat.text = recipe.fat
+
+        val imageResId = holder.itemView.context.resources.getIdentifier(
+            recipe.image, "drawable", holder.itemView.context.packageName
+        )
+        holder.recipeImage.setImageResource(imageResId)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, RecipeDetailsActivity::class.java)

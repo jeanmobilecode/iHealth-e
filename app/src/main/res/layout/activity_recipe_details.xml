@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -16,18 +15,28 @@
         android:theme="@style/Theme.MacroUp.Splash"
         tools:context=".RecipeDatails">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
         <TextView
             android:id="@+id/recipeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="70dp"
             android:fontFamily="@font/displayfont"
             android:text="Recipe Name"
             android:textSize="18dp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
         <View
             android:id="@+id/lineView"
@@ -60,17 +69,16 @@
             android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipeImage"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/recipeImage">
 
             <ImageView
                 android:id="@+id/kcalImg"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_calories" />
+                app:srcCompat="@drawable/icon_calories2" />
 
 
             <TextView
@@ -91,7 +99,7 @@
                 android:layout_marginLeft="30dp"
                 app:layout_constraintStart_toEndOf="@+id/kcalImg"
                 app:layout_constraintTop_toTopOf="@+id/kcalImg"
-                app:srcCompat="@drawable/icon_protein" />
+                app:srcCompat="@drawable/icon_protein2" />
 
             <TextView
                 android:id="@+id/proteinText"
@@ -111,7 +119,7 @@
                 android:layout_marginLeft="30dp"
                 app:layout_constraintStart_toEndOf="@+id/proteinImg"
                 app:layout_constraintTop_toTopOf="@+id/kcalImg"
-                app:srcCompat="@drawable/icon_carbs" />
+                app:srcCompat="@drawable/icon_carbs2" />
 
             <TextView
                 android:id="@+id/carbsText"
@@ -131,7 +139,7 @@
                 android:layout_marginLeft="30dp"
                 app:layout_constraintStart_toEndOf="@+id/carbsImg"
                 app:layout_constraintTop_toTopOf="@+id/kcalImg"
-                app:srcCompat="@drawable/icon_fat" />
+                app:srcCompat="@drawable/icon_fat2" />
 
             <TextView
                 android:id="@+id/fatText"
@@ -149,11 +157,11 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/fatImg"
                 app:layout_constraintTop_toTopOf="@+id/kcalImg"
-                app:srcCompat="@drawable/icon_clock" />
+                app:srcCompat="@drawable/icon_clock2" />
 
             <TextView
                 android:id="@+id/clockText"
@@ -167,7 +175,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/kcalImg" />
 
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -175,11 +182,11 @@
             android:id="@+id/ingredientsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:text="@string/ingredients"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/recipeTitle"
+            app:layout_constraintStart_toStartOf="@+id/recipeImage"
             app:layout_constraintTop_toBottomOf="@+id/infoContainer" />
 
         <androidx.recyclerview.widget.RecyclerView

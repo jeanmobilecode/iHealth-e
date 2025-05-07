@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         >
 
         <androidx.cardview.widget.CardView
@@ -75,7 +74,7 @@
                     android:layout_marginTop="15dp"
                     app:layout_constraintStart_toStartOf="@+id/recipeTitle"
                     app:layout_constraintTop_toBottomOf="@+id/recipeTitle"
-                    app:srcCompat="@drawable/icon_category" />
+                    app:srcCompat="@drawable/icon_category2" />
 
                 <TextView
                     android:id="@+id/recipeTime"
@@ -96,7 +95,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="@+id/recipeTitle"
                     app:layout_constraintTop_toBottomOf="@+id/categoryIconImage"
-                    app:srcCompat="@drawable/icon_clock" />
+                    app:srcCompat="@drawable/icon_clock2" />
 
                 <TextView
                     android:id="@+id/recipeCalories"
@@ -114,7 +113,7 @@
                     android:layout_marginTop="9dp"
                     app:layout_constraintStart_toStartOf="@+id/timeIconImage"
                     app:layout_constraintTop_toBottomOf="@+id/timeIconImage"
-                    app:srcCompat="@drawable/icon_calories" />
+                    app:srcCompat="@drawable/icon_calories2" />
 
                 <ImageView
                     android:id="@+id/iconProtein"
@@ -123,7 +122,7 @@
                     android:layout_marginRight="10dp"
                     app:layout_constraintEnd_toStartOf="@+id/descriptionProtein"
                     app:layout_constraintTop_toTopOf="@+id/recipeCategory"
-                    app:srcCompat="@drawable/icon_protein" />
+                    app:srcCompat="@drawable/icon_protein2" />
 
                 <TextView
                     android:id="@+id/descriptionProtein"
@@ -141,7 +140,7 @@
                     android:layout_height="25dp"
                     app:layout_constraintStart_toStartOf="@+id/iconProtein"
                     app:layout_constraintTop_toTopOf="@+id/recipeTime"
-                    app:srcCompat="@drawable/icon_carbs" />
+                    app:srcCompat="@drawable/icon_carbs2" />
 
                 <TextView
                     android:id="@+id/descriptionCarbs"
@@ -158,7 +157,7 @@
                     android:layout_height="25dp"
                     app:layout_constraintStart_toStartOf="@+id/iconCarbs"
                     app:layout_constraintTop_toTopOf="@+id/recipeCalories"
-                    app:srcCompat="@drawable/icon_fat" />
+                    app:srcCompat="@drawable/icon_fat2" />
 
                 <TextView
                     android:id="@+id/descriptionFat"
@@ -181,7 +180,6 @@
             android:backgroundTint="@color/mainGreen"
             android:text="@string/new_recipe"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
             />
     </LinearLayout>
 

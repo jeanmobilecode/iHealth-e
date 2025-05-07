@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MacroUp</string>
     <string name="card_top_title">Na dúvida do que comer?</string>
-    <string name="generate_button">Gerar</string>
+    <string name="generate_button">Explorar</string>
     <string name="breakfast">Café da manhã</string>
     <string name="snack">Lanche</string>
     <string name="lunch_and_dinner">Almoço e Jantar</string>
@@ -17,6 +17,11 @@
     <string name="time">Tempo:</string>
     <string name="ingredients">Ingredientes</string>
     <string name="instructions">Instruções</string>
-    <string name="recyclerView" />
     <string name="new_recipe">Nova receita</string>
+    <string name="search">Buscar</string>
+    <string name="search_hint">Buscar por nome ou ingrediente</string>
+    <string name="random_recipe">Que tal uma receita aleatoria?</string>
+    <string name="sugestion">Sugestoes para voce</string>
+    <string name="search_results">Resultados da sua pesquisa</string>
+    <string name="filter_by_cateogry">Filtrar busca por categoria</string>
 </resources>

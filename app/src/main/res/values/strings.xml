@@ -24,4 +24,9 @@
     <string name="sugestion">Sugestoes para voce</string>
     <string name="search_results">Resultados da sua pesquisa</string>
     <string name="filter_by_cateogry">Filtrar busca por categoria</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="add_item">Add Item</string>
+    <string name="delete_list">Deletar Lista</string>
+    <string name="any_recipe_added">Voce ainda nao adicionou nenhum receita</string>
 </resources>

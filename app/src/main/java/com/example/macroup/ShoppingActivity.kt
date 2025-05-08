@@ -2,7 +2,10 @@ package com.example.macroup
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +18,10 @@ class ShoppingActivity : AppCompatActivity() {
 
     private lateinit var shoppingPreferences: ShoppingPreferences
     private lateinit var shoppingRecyclerView: RecyclerView
+    private lateinit var ingredientList : MutableList<Ingredients>
     private lateinit var adapter: AdapterShopping
+    private lateinit var emptyStateLayout: LinearLayout
+    private lateinit var cardRemoveAll: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,23 +31,31 @@ class ShoppingActivity : AppCompatActivity() {
         shoppingPreferences = ShoppingPreferences(this)
 
         // Recupera a lista salva no SharedPreferences
-        val ingredientsList = shoppingPreferences.getShoppingList()
+        ingredientList = shoppingPreferences.getShoppingList()
+
+        // Inicializa o layout vazio
+        emptyStateLayout = findViewById(R.id.emptyStateLayout)
+        cardRemoveAll = findViewById(R.id.cardRemoveAll)
 
         // Configura RecyclerView
         shoppingRecyclerView = findViewById(R.id.shoppingRecyclerView)
         shoppingRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // Configura o Adapter e adiciona ao RecyclerView
-        adapter = AdapterShopping(ingredientsList, this) { ingredient ->
-            removeIngredient(ingredient)
-        }
+        adapter = AdapterShopping(ingredientList, this, emptyStateLayout, cardRemoveAll)
         shoppingRecyclerView.adapter = adapter
 
-        setBottomViewNavegation()
-    }
+        // Verifica o estado da lista após inicializar o adapter
+        adapter.checkEmptyState()
 
-    private fun removeIngredient(ingredient: Ingredients) {
-        adapter.removeItem(ingredient)
+        // Botão para remover todos os itens
+        val cardRemoveAll: CardView = findViewById(R.id.cardRemoveAll)
+        cardRemoveAll.setOnClickListener {
+            adapter.removeAllItems()
+            Toast.makeText(this, "Lista apagada", Toast.LENGTH_SHORT).show()
+        }
+
+        setBottomViewNavegation()
     }
 
     private fun setBottomViewNavegation(){
@@ -77,6 +91,4 @@ class ShoppingActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

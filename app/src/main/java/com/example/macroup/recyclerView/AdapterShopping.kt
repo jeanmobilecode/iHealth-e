@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.macroup.R
 import com.google.gson.Gson
@@ -13,13 +15,14 @@ import com.google.gson.Gson
 class AdapterShopping(
     private var ingredientList: MutableList<Ingredients>,
     private val context: Context,
-    private val onDeleteClick: (Ingredients) -> Unit
+    private val emptyStateLayout: LinearLayout,
+    private val cardRemoveAll: CardView
 ) : RecyclerView.Adapter<AdapterShopping.ShoppingViewHolder>() {
 
     class ShoppingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ingredientName: TextView = itemView.findViewById(R.id.ingredientName)
         val ingredientQuantity: TextView = itemView.findViewById(R.id.ingredientQuantity)
-        val deleteIcon: ImageView = itemView.findViewById(R.id.deleteIcon)
+        val deleteIcon: Button = itemView.findViewById(R.id.delete_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingViewHolder {
@@ -29,15 +32,13 @@ class AdapterShopping(
 
     override fun onBindViewHolder(holder: ShoppingViewHolder, position: Int) {
         val ingredient = ingredientList[position]
-        holder.ingredientName.text = "${ingredient.name}"
-        holder.ingredientQuantity.text = "${ingredient.quantity}"
 
-        // Clique no ícone de lixeira para remover o ingrediente
+        holder.ingredientName.text = ingredient.name
+        holder.ingredientQuantity.text = ingredient.quantity
+
+        // Clique no botão de lixeira para remover o ingrediente
         holder.deleteIcon.setOnClickListener {
-            ingredientList.removeAt(position) // Remove da lista na memória
-            updateShoppingListInPreferences() // Atualiza o SharedPreferences
-            notifyItemRemoved(position) // Atualiza a RecyclerView
-            notifyItemRangeChanged(position, ingredientList.size)
+            removeItem(ingredient)
         }
     }
 
@@ -45,12 +46,29 @@ class AdapterShopping(
         return ingredientList.size
     }
 
+    fun removeAllItems() {
+        if (ingredientList.isNotEmpty()) {
+            ingredientList.clear()
+            updateShoppingListInPreferences()
+            notifyDataSetChanged()
+        }
+        checkEmptyState() // Verifica o estado da lista
+    }
+
     fun removeItem(ingredient: Ingredients) {
         val position = ingredientList.indexOf(ingredient)
         if (position != -1) {
             ingredientList.removeAt(position)
+            updateShoppingListInPreferences()
             notifyItemRemoved(position)
+            notifyItemRangeChanged(position, ingredientList.size)
         }
+        checkEmptyState() // Verifica o estado da lista
+    }
+
+    fun checkEmptyState() {
+        emptyStateLayout.visibility = if (ingredientList.isEmpty()) View.VISIBLE else View.GONE
+        cardRemoveAll.visibility = if (ingredientList.isEmpty()) View.GONE else View.VISIBLE
     }
 
     // Atualiza o SharedPreferences após a remoção
@@ -59,9 +77,9 @@ class AdapterShopping(
         val editor = sharedPreferences.edit()
 
         val gson = Gson()
-        val json = gson.toJson(ingredientList) // Converte a lista atualizada para JSON
+        val json = gson.toJson(ingredientList)
 
-        editor.putString("shopping_list", json) // Salva a nova lista no SharedPreferences
+        editor.putString("shopping_list", json)
         editor.apply()
     }
 }

@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
     android:background="@color/gray"
     android:orientation="vertical"
     android:theme="@style/Theme.MacroUp.Splash">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:cardCornerRadius="10dp">
+        android:layout_height="120dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,9 +22,10 @@
 
             <TextView
                 android:id="@+id/ingredientName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="18dp"
+                android:background="@android:color/transparent"
                 android:text="Nome do Ingrediente"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -31,22 +34,32 @@
 
             <TextView
                 android:id="@+id/ingredientQuantity"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Quantidade: 10"
+                android:textSize="15sp"
                 android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="@+id/ingredientName"
                 app:layout_constraintTop_toBottomOf="@+id/ingredientName" />
 
-            <ImageView
-                android:id="@+id/deleteIcon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:src="@drawable/icon_trash"
-                android:layout_marginEnd="30dp"
-                android:layout_marginTop="12dp"
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/delete_button"
+                android:layout_width="115dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button_background"
+                android:backgroundTint="@color/lightRed"
+                android:text="@string/delete"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ingredientName" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

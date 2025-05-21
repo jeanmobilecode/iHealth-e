@@ -2,7 +2,6 @@ package com.example.macroup.recyclerView
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.macroup.R
-import com.example.macroup.RecipeDetailsActivity
+import com.example.macroup.activity.RecipeDetailsActivity
 
 
 
@@ -61,11 +60,10 @@ class AdapterRecipe(private val context: Context, var recipeList: MutableList<Re
     }
 
 
-    fun updateList(newList: MutableList<Recipe>) {
-        Log.i("log_updateList", "Atualizando lista com ${newList.size} receitas")
-        recipeList.clear() // Garante que a lista anterior seja apagada
-        recipeList.addAll(newList) // Adiciona os novos itens corretamente
-        notifyDataSetChanged() // Atualiza a RecyclerView
+    fun updateRecipes(newRecipes: List<Recipe>) {
+        recipeList.clear()
+        recipeList.addAll(newRecipes)
+        notifyDataSetChanged()
     }
 }
 

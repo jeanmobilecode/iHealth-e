@@ -29,4 +29,8 @@
     <string name="add_item">Add Item</string>
     <string name="delete_list">Deletar Lista</string>
     <string name="any_recipe_added">Voce ainda nao adicionou nenhum receita</string>
+    <string name="share">Compartilhar</string>
+    <string name="loading_recipes">Carregando receitas...</string>
+    <string name="all_categories">Tudo</string>
+    <string name="all_ready">Tudo pronto!</string>
 </resources>

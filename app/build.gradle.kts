@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation ("com.google.android.gms:play-services-ads-lite:22.6.0")
+    implementation ("com.airbnb.android:lottie:6.1.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation ("androidx.activity:activity-ktx:1.8.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
@@ -58,4 +60,3 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-//implementation(libs.androidx.core.ktx)

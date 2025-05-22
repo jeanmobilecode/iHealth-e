@@ -13,6 +13,9 @@ import com.example.macroup.R
 import com.example.macroup.recyclerView.AdapterShopping
 import com.example.macroup.recyclerView.Ingredients
 import com.example.macroup.sharedPreferences.ShoppingPreferences
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ShoppingActivity : AppCompatActivity() {
@@ -26,10 +29,16 @@ class ShoppingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
         setContentView(R.layout.activity_shopping)
 
         shoppingPreferences = ShoppingPreferences(this)
+
+        MobileAds.initialize(this){}
+
+        val adView = findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         // Recupera a lista salva no SharedPreferences
         ingredientList = shoppingPreferences.getShoppingList()
@@ -79,6 +88,13 @@ class ShoppingActivity : AppCompatActivity() {
 
                 R.id.nav_random -> {
                     val intent = Intent(this, RandomRecipesActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_about -> {
+                    val intent = Intent(this, AboutActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     startActivity(intent)
                     true

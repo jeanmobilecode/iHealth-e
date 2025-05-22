@@ -16,6 +16,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import com.example.macroup.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -35,6 +38,12 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         searchRecipes("")
+
+        MobileAds.initialize(this){}
+
+        val adView = findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
 
         //Codigo Adapter Receitas Resultado Pesquisa
         recyclerView = findViewById(R.id.recycler_view)
@@ -134,6 +143,13 @@ class SearchActivity : AppCompatActivity() {
 
                 R.id.nav_random -> {
                     val intent = Intent(this, RandomRecipesActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_about -> {
+                    val intent = Intent(this, AboutActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     startActivity(intent)
                     true

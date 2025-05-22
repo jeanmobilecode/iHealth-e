@@ -50,7 +50,7 @@ class RecipeViewModel : ViewModel() {
                 _recipeList.value = recipes
             },
             onFailure = {
-                // Pode adicionar um MutableLiveData de erro aqui, se necessário
+
             }
         )
     }

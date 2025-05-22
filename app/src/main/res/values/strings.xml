@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MacroUp</string>
+    <string name="app_name">iHealth-e</string>
     <string name="card_top_title">Na dúvida do que comer?</string>
     <string name="generate_button">Explorar</string>
     <string name="breakfast">Café da manhã</string>
@@ -33,4 +33,13 @@
     <string name="loading_recipes">Carregando receitas...</string>
     <string name="all_categories">Tudo</string>
     <string name="all_ready">Tudo pronto!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="privacy_policy">Politica de Privacidade</string>
+    <string name="home">Inicio</string>
+    <string name="shopping">Compras</string>
+    <string name="random">Aleatorio</string>
+    <string name="about">Sobre</string>
+    <string name="responsibility_notice">Este app possui caráter exclusivamente informativo. Não substitui orientação médica ou nutricional. Consulte um profissional antes de tomar decisões relacionadas à sua saúde.</string>
+    <string name="contact">Contato: contato.ihealthe@gmail.com</string>
 </resources>

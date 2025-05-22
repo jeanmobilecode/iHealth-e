@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.macroup.R
 import com.example.macroup.activity.RecipeDetailsActivity
 
-
-
 class AdapterRecipe(private val context: Context, var recipeList: MutableList<Recipe>) : RecyclerView.Adapter<AdapterRecipe.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

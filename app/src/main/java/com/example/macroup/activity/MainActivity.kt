@@ -158,11 +158,17 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.nav_about -> {
+                    val intent = Intent(this, AboutActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                    true
+                }
+
                 else -> false
             }
         }
     }
-
 
 }
 

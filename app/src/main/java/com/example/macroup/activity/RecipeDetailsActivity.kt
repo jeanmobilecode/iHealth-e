@@ -24,10 +24,13 @@ import com.google.android.gms.ads.MobileAds
 class RecipeDetailsActivity : AppCompatActivity() {
 
     private val recipeViewModel: RecipeViewModel by viewModels()
+
     private lateinit var ingredientsAdapter: AdapterIngredients
     private lateinit var ingredientsRecyclerView: RecyclerView
+
     private lateinit var instructionAdapter: AdapterInstructions
     private lateinit var instructionRecyclerView: RecyclerView
+
     private lateinit var shareButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +39,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
         setContentView(R.layout.activity_recipe_details)
 
-        MobileAds.initialize(this){}
+        MobileAds.initialize(this) {}
 
         val adView = findViewById<AdView>(R.id.adView)
         val adRequest = AdRequest.Builder().build()
@@ -58,7 +61,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         val time: TextView = findViewById(R.id.clockText)
         shareButton = findViewById(R.id.shareButton)
 
-        // Configura os valores
+        // Configura os valores da receita
         title.text = recipe.title
         val imageResId = recipeImage.context.resources.getIdentifier(
             recipe.image, "drawable", recipeImage.context.packageName
@@ -76,32 +79,27 @@ class RecipeDetailsActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // RecyclerView de ingredientes
+        // Ingredientes RecyclerView
         ingredientsRecyclerView = findViewById(R.id.ingredients)
         ingredientsRecyclerView.layoutManager = LinearLayoutManager(this)
+        ingredientsAdapter = AdapterIngredients(this, emptyList())
+        ingredientsRecyclerView.adapter = ingredientsAdapter
 
-        recipeViewModel.ingredientsOptions.observe(this) { options ->
-            options?.let {
-                ingredientsAdapter = AdapterIngredients(it, this)
-                ingredientsRecyclerView.adapter = ingredientsAdapter
-                ingredientsAdapter.startListening()
-            }
+        recipeViewModel.ingredientsList.observe(this) { ingredients ->
+            ingredientsAdapter.updateList(ingredients)
         }
 
-        // RecyclerView de instruções
+        // Instruções RecyclerView
         instructionRecyclerView = findViewById(R.id.instructionsRecyclerView)
         instructionRecyclerView.layoutManager = LinearLayoutManager(this)
+        instructionAdapter = AdapterInstructions(emptyList())
+        instructionRecyclerView.adapter = instructionAdapter
 
-        // Use o mesmo recipeViewModel aqui (corrigido)
-        recipeViewModel.instructionsOptions.observe(this) { options ->
-            options?.let {
-                instructionAdapter = AdapterInstructions(it)
-                instructionRecyclerView.adapter = instructionAdapter
-                instructionAdapter.startListening()
-            }
+        recipeViewModel.instructionsList.observe(this) { instructions ->
+            instructionAdapter.updateList(instructions)
         }
 
-        // Link para compartilhamento
+        // Compartilhar app
         val appLink = "https://play.google.com/store/apps/details?id=${packageName}"
 
         shareButton.setOnClickListener {
@@ -117,7 +115,6 @@ class RecipeDetailsActivity : AppCompatActivity() {
                     Tempo de preparo: ${recipe.time} min
 
                     Macros por porção:
-
                     - Proteínas: ${recipe.protein}
                     - Carboidratos: ${recipe.carbohydrates}
                     - Gorduras: ${recipe.fat}
@@ -135,11 +132,5 @@ class RecipeDetailsActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (::ingredientsAdapter.isInitialized) ingredientsAdapter.stopListening()
-        if (::instructionAdapter.isInitialized) instructionAdapter.stopListening()
     }
 }

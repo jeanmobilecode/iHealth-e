@@ -11,15 +11,18 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.macroup.R
 import com.example.macroup.sharedPreferences.ShoppingPreferences
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class AdapterIngredients(
-    options: FirestoreRecyclerOptions<Ingredients>,
-    private val context: Context
-) : FirestoreRecyclerAdapter<Ingredients, AdapterIngredients.IngredientViewHolder>(options) {
+    private val context: Context,
+    private var ingredientsList: List<Ingredients>
+) : RecyclerView.Adapter<AdapterIngredients.IngredientViewHolder>() {
 
     private val selectedIngredients = mutableListOf<Ingredients>()
+    private val shoppingPreferences = ShoppingPreferences(context)
+
+    init {
+        selectedIngredients.addAll(shoppingPreferences.getShoppingList())
+    }
 
     inner class IngredientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBoxIngredient)
@@ -32,49 +35,54 @@ class AdapterIngredients(
         return IngredientViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int, model: Ingredients) {
-        holder.ingredientName.text = "${model.quantity} ${model.name}"
-
-        val shoppingPreferences = ShoppingPreferences(holder.itemView.context)
-
-        // Carrega lista salva do SharedPreferences
-        val savedList = shoppingPreferences.getShoppingList()
+    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+        val ingredient = ingredientsList[position]
+        holder.ingredientName.text = "${ingredient.quantity} ${ingredient.name}"
 
         // Remove listener anterior
         holder.checkBox.setOnCheckedChangeListener(null)
 
-        // Verifica se o item está salvo
-        val isChecked = savedList.contains(model)
+        // Verifica se o item está salvo na lista
+        val isChecked = selectedIngredients.contains(ingredient)
         holder.checkBox.isChecked = isChecked
+        updateCheckboxVisual(holder, isChecked)
 
-        // Atualiza visual
-        if (isChecked) {
-            if (!selectedIngredients.contains(model)) selectedIngredients.add(model)
-            holder.checkBox.setBackgroundResource(R.drawable.icon_checked_checkbox)
-        } else {
-            selectedIngredients.remove(model)
-            holder.checkBox.setBackgroundResource(R.drawable.icon_unchecked_checkbox)
-        }
-
-        // Listener
+        // Listener do CheckBox
         holder.checkBox.setOnCheckedChangeListener { _, isNowChecked ->
             if (isNowChecked) {
-                if (!selectedIngredients.contains(model)) selectedIngredients.add(model)
-                holder.checkBox.setBackgroundResource(R.drawable.icon_checked_checkbox)
+                if (!selectedIngredients.contains(ingredient)) {
+                    selectedIngredients.add(ingredient)
+                }
+                updateCheckboxVisual(holder, true)
 
-                // Notificar o usuário que o ingrediente foi adicionado
-                Toast.makeText(holder.itemView.context, "${model.name} adicionado à lista de compras", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "${ingredient.name} adicionado à lista de compras", Toast.LENGTH_SHORT).show()
             } else {
-                selectedIngredients.remove(model)
-                holder.checkBox.setBackgroundResource(R.drawable.icon_unchecked_checkbox)
+                selectedIngredients.remove(ingredient)
+                updateCheckboxVisual(holder, false)
 
-                // Notificar o usuário que o ingrediente foi removido
-                Toast.makeText(holder.itemView.context, "${model.name} removido da lista de compras", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "${ingredient.name} removido da lista de compras", Toast.LENGTH_SHORT).show()
             }
 
+            // Salva no SharedPreferences
             shoppingPreferences.saveShoppingList(selectedIngredients)
             Log.i("IngredientAdapter", "Selecionados: $selectedIngredients")
         }
     }
 
+    override fun getItemCount(): Int {
+        return ingredientsList.size
+    }
+
+    fun updateList(newList: List<Ingredients>) {
+        ingredientsList = newList
+        notifyDataSetChanged()
+    }
+
+    private fun updateCheckboxVisual(holder: IngredientViewHolder, isChecked: Boolean) {
+        if (isChecked) {
+            holder.checkBox.setBackgroundResource(R.drawable.icon_checked_checkbox)
+        } else {
+            holder.checkBox.setBackgroundResource(R.drawable.icon_unchecked_checkbox)
+        }
+    }
 }

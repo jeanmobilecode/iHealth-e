@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.macroup.recyclerView.Ingredients
 import com.example.macroup.recyclerView.Instructions
 import com.example.macroup.recyclerView.Recipe
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class RecipeViewModel : ViewModel() {
 
@@ -25,11 +24,11 @@ class RecipeViewModel : ViewModel() {
     private val _currentRecipeId = MutableLiveData<String?>()
     val currentRecipeId: LiveData<String?> = _currentRecipeId
 
-    private val _ingredientsOptions = MutableLiveData<FirestoreRecyclerOptions<Ingredients>>()
-    val ingredientsOptions: LiveData<FirestoreRecyclerOptions<Ingredients>> get() = _ingredientsOptions
+    private val _ingredientsList = MutableLiveData<List<Ingredients>>()
+    val ingredientsList: LiveData<List<Ingredients>> get() = _ingredientsList
 
-    private val _instructionsOptions = MutableLiveData<FirestoreRecyclerOptions<Instructions>>()
-    val instructionsOptions: LiveData<FirestoreRecyclerOptions<Instructions>> get() = _instructionsOptions
+    private val _instructionsList = MutableLiveData<List<Instructions>>()
+    val instructionsList: LiveData<List<Instructions>> get() = _instructionsList
 
     fun loadAllRecipes() {
         RecipeRepository.loadAllRecipes(
@@ -49,9 +48,7 @@ class RecipeViewModel : ViewModel() {
             onSuccess = { recipes ->
                 _recipeList.value = recipes
             },
-            onFailure = {
-
-            }
+            onFailure = { }
         )
     }
 
@@ -68,24 +65,32 @@ class RecipeViewModel : ViewModel() {
 
     fun setCurrentRecipeId(id: String) {
         _currentRecipeId.value = id
-        loadIngredientsOptions(id)
-        loadInstructionsOptions(id)
+        loadIngredients(id)
+        loadInstructions(id)
     }
 
-    private fun loadIngredientsOptions(id: String) {
-        val query = RecipeRepository.getIngredientsOptions(id)
-        val options = FirestoreRecyclerOptions.Builder<Ingredients>()
-            .setQuery(query, Ingredients::class.java)
-            .build()
-        _ingredientsOptions.value = options
+    fun loadIngredients(recipeId: String) {
+        RecipeRepository.loadIngredients(
+            recipeId,
+            onSuccess = { ingredients ->
+                _ingredientsList.value = ingredients
+            },
+            onFailure = {
+                _ingredientsList.value = emptyList()
+            }
+        )
     }
 
-    private fun loadInstructionsOptions(id: String) {
-        val query = RecipeRepository.getInstructionsOptions(id)
-        val options = FirestoreRecyclerOptions.Builder<Instructions>()
-            .setQuery(query, Instructions::class.java)
-            .build()
-        _instructionsOptions.value = options
+    fun loadInstructions(recipeId: String) {
+        RecipeRepository.loadInstructions(
+            recipeId,
+            onSuccess = { instructions ->
+                _instructionsList.value = instructions
+            },
+            onFailure = {
+                _instructionsList.value = emptyList()
+            }
+        )
     }
 
     fun updateRecipeList(recipes: List<Recipe>) {

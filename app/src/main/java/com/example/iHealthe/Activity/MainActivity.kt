@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iHealthe.Adapter.AdapterRecipe
 import androidx.appcompat.app.AlertDialog
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.iHealthe.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.iHealthe.RecipeData.RecipeViewModel
@@ -37,10 +38,18 @@ class MainActivity : AppCompatActivity() {
     private var loadedRecipes: ArrayList<Recipe>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition {
+            recipeViewModel.isRecipesLoaded.value != true
+        }
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
         setContentView(R.layout.activity_main)
+
+        if (recipeViewModel.isRecipesLoaded.value != true) {
+            recipeViewModel.loadAllRecipes()
+        }
 
         if (!isInternetAvailable(this)) {
             showNoInternetDialog(this)

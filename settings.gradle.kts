@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "macroup"
+rootProject.name = "iHealthe"
 include(":app")
  

@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.RandomRecipesActivity">
+    tools:context=".Activity.RandomRecipesActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/img_pasta"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.68"
+                    app:layout_constraintHeight_percent="0.63"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="1"
@@ -72,6 +72,7 @@
                     android:layout_marginTop="15dp"
                     android:text="Café da manhã 2.0"
                     android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/categoryIconImage"
                     app:layout_constraintStart_toEndOf="@+id/categoryIconImage"
                     app:layout_constraintTop_toBottomOf="@+id/recipeTitle" />
 
@@ -89,19 +90,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="12dp"
                     android:text="97 min"
                     android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/timeIconImage"
                     app:layout_constraintStart_toEndOf="@+id/timeIconImage"
-                    app:layout_constraintTop_toBottomOf="@+id/categoryIconImage" />
+                    app:layout_constraintTop_toTopOf="@+id/timeIconImage" />
 
 
                 <ImageView
                     android:id="@+id/timeIconImage"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="@+id/recipeTitle"
+                    app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                    app:layout_constraintStart_toStartOf="@+id/categoryIconImage"
                     app:layout_constraintTop_toBottomOf="@+id/categoryIconImage"
                     app:srcCompat="@drawable/icon_clock2" />
 
@@ -109,18 +110,19 @@
                     android:id="@+id/recipeCalories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:text="900 kcal"
                     android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                     app:layout_constraintStart_toStartOf="@+id/recipeTime"
-                    app:layout_constraintTop_toBottomOf="@+id/recipeTime" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
                 <ImageView
+                    android:id="@+id/imageView2"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timeIconImage"
-                    app:layout_constraintTop_toBottomOf="@+id/timeIconImage"
                     app:srcCompat="@drawable/icon_calories2" />
 
                 <ImageView
@@ -137,8 +139,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="60dp"
-                    android:text="13 mg"
+                    android:text="13g"
                     android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iconProtein"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/iconProtein" />
 
@@ -154,8 +157,9 @@
                     android:id="@+id/descriptionCarbs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30 mg"
+                    android:text="30g"
                     android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iconCarbs"
                     app:layout_constraintStart_toStartOf="@+id/descriptionProtein"
                     app:layout_constraintTop_toTopOf="@+id/iconCarbs" />
 
@@ -171,8 +175,9 @@
                     android:id="@+id/descriptionFat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 mg"
+                    android:text="5g"
                     android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iconFat"
                     app:layout_constraintStart_toStartOf="@+id/descriptionCarbs"
                     app:layout_constraintTop_toTopOf="@+id/iconFat" />
 

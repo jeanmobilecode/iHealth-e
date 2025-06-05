@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.macroup"
+    namespace = "com.example.iHealthe"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.macroup"
+        applicationId = "com.example.iHealthe"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-
     //AdMob lite
     implementation ("com.google.android.gms:play-services-ads-lite:22.6.0")
 

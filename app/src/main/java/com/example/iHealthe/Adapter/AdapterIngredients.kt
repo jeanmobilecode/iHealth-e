@@ -38,38 +38,30 @@ class AdapterIngredients(
         val ingredient = ingredientsList[position]
         holder.ingredientName.text = "${ingredient.quantity} ${ingredient.name}"
 
-        // Remove listener anterior
         holder.checkBox.setOnCheckedChangeListener(null)
 
-        // Verifica se o item está salvo na lista
-        val isChecked = selectedIngredients.contains(ingredient)
+        val isChecked = ingredient in selectedIngredients
         holder.checkBox.isChecked = isChecked
         updateCheckboxVisual(holder, isChecked)
 
-        // Listener do CheckBox
         holder.checkBox.setOnCheckedChangeListener { _, isNowChecked ->
             if (isNowChecked) {
                 if (!selectedIngredients.contains(ingredient)) {
                     selectedIngredients.add(ingredient)
                 }
                 updateCheckboxVisual(holder, true)
-
-                Toast.makeText(context, "${ingredient.name} adicionado à lista de compras", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "${ingredient.name} ${R.string.added_to_shopping}", Toast.LENGTH_SHORT).show()
             } else {
                 selectedIngredients.remove(ingredient)
                 updateCheckboxVisual(holder, false)
-
-                Toast.makeText(context, "${ingredient.name} removido da lista de compras", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "${ingredient.name} ${R.string.removed_of_shopping}", Toast.LENGTH_SHORT).show()
             }
 
-            // Salva no SharedPreferences
             shoppingPreferences.saveShoppingList(selectedIngredients)
         }
     }
 
-    override fun getItemCount(): Int {
-        return ingredientsList.size
-    }
+    override fun getItemCount(): Int = ingredientsList.size
 
     fun updateList(newList: List<Ingredients>) {
         ingredientsList = newList
@@ -77,10 +69,11 @@ class AdapterIngredients(
     }
 
     private fun updateCheckboxVisual(holder: IngredientViewHolder, isChecked: Boolean) {
-        if (isChecked) {
-            holder.checkBox.setBackgroundResource(R.drawable.icon_checked_checkbox)
+        val backgroundRes = if (isChecked) {
+            R.drawable.icon_checked_checkbox
         } else {
-            holder.checkBox.setBackgroundResource(R.drawable.icon_unchecked_checkbox)
+            R.drawable.icon_unchecked_checkbox
         }
+        holder.checkBox.setBackgroundResource(backgroundRes)
     }
 }

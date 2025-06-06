@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:gravity="center"
+    android:layout_margin="8dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:cardCornerRadius="50dp"
-        android:elevation="20dp">
+        app:cardElevation="8dp">
 
         <ImageView
             android:id="@+id/categoryIcon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="0dp"
-            android:src="@drawable/img_breakfast"
-            app:shapeAppearanceOverlay="@style/roundimageview"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_breakfast"/>
 
     </androidx.cardview.widget.CardView>
-
 
     <TextView
         android:id="@+id/categoryName"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="12sp"
-        android:text="Category name"
+        android:gravity="center"
+        android:text="Category Name"
         android:textColor="@android:color/black"
-        android:gravity="center" />
+        android:textSize="12sp"/>
 
 </LinearLayout>

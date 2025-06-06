@@ -83,9 +83,9 @@ class MainActivity : AppCompatActivity() {
 
     fun showNoInternetDialog(context: Context) {
         AlertDialog.Builder(context)
-            .setTitle("Sem Conexão com a Internet")
-            .setMessage("Sua conexão com a internet parece estar desligada. Alguns recursos do app podem não funcionar corretamente.")
-            .setCancelable(false) // O usuário não pode fechar clicando fora ou no botão de voltar
+            .setTitle(getString(R.string.internet_connection))
+            .setMessage(getString(R.string.internet_off))
+            .setCancelable(false)
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
             }
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 loadedRecipes = ArrayList(recipes)
                 updateRecipeList(loadedRecipes!!)
             } else {
-                Toast.makeText(this, "Nenhuma receita disponível", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.no_recipe_avaliable), Toast.LENGTH_SHORT).show()
             }
         }
     }

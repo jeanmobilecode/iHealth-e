@@ -1,29 +1,18 @@
 package com.example.iHealthe.RecipeData
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import com.example.iHealthe.Activity.MainActivity
 import com.example.iHealthe.Adapter.Ingredients
 import com.example.iHealthe.Adapter.Instructions
 import com.example.iHealthe.Adapter.Recipe
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
-
-
-    private val _newRecipeList = MutableLiveData<List<Recipe>>()
-    val newrecipeList: LiveData<List<Recipe>> = _newRecipeList
 
     private val _recipeList = MutableLiveData<List<Recipe>>()
     val recipeList: LiveData<List<Recipe>> = _recipeList
@@ -76,8 +65,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                     RecipeRepository.loadRecipesByCategory(category)
                 }
                 _recipeList.value = recipes
-            } catch (e: Exception) {
-
+            } catch (_: Exception) {
             }
         }
     }
@@ -126,5 +114,4 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
     }
-
 }

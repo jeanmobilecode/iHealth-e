@@ -37,7 +37,6 @@ class AdapterShopping(
         holder.ingredientName.text = ingredient.name
         holder.ingredientQuantity.text = ingredient.quantity
 
-        // Clique no botão de lixeira para remover o ingrediente
         holder.deleteIcon.setOnClickListener {
             removeItem(ingredient)
         }
@@ -53,7 +52,7 @@ class AdapterShopping(
             updateShoppingListInPreferences()
             notifyDataSetChanged()
         }
-        checkEmptyState() // Verifica o estado da lista
+        checkEmptyState()
     }
 
     fun removeItem(ingredient: Ingredients) {
@@ -64,7 +63,7 @@ class AdapterShopping(
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, ingredientList.size)
         }
-        checkEmptyState() // Verifica o estado da lista
+        checkEmptyState()
     }
 
     fun checkEmptyState() {
@@ -72,7 +71,6 @@ class AdapterShopping(
         cardRemoveAll.visibility = if (ingredientList.isEmpty()) View.GONE else View.VISIBLE
     }
 
-    // Atualiza o SharedPreferences após a remoção
     private fun updateShoppingListInPreferences() {
         val sharedPreferences = context.getSharedPreferences("shopping_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

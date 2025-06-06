@@ -15,8 +15,8 @@ class ShoppingPreferences(context: Context) {
     private val gson = Gson()
 
     fun saveShoppingList(newIngredients: List<Ingredients>) {
-        val existingList = getShoppingList()// Recupera a lista atual
-        val updatedList = (existingList + newIngredients).distinctBy { it.name } // Evita duplicatas
+        val existingList = getShoppingList()
+        val updatedList = (existingList + newIngredients).distinctBy { it.name }
         val json = Gson().toJson(updatedList)
         sharedPreferences.edit().putString(KEY_SHOPPING_LIST, json).apply()
     }

@@ -13,8 +13,8 @@
     </style>
 
     <style name="BottomNavTextStyle">
-        <item name="android:textSize">10sp</item> <!-- Reduz o tamanho do texto -->
-        <item name="android:paddingTop">0dp</item> <!-- Remove espaços extras -->
+        <item name="android:textSize">10sp</item>
+        <item name="android:paddingTop">0dp</item>
     </style>
 
 

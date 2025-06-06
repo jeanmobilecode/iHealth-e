@@ -24,18 +24,23 @@ class AboutActivity : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
+        setupVersionInfo()
+        setupPrivacyPolicyButton()
+        setBottomNavigationView()
+    }
+
+    private fun setupVersionInfo() {
         val version = findViewById<TextView>(R.id.app_version)
         val versionName = packageManager.getPackageInfo(packageName, 0).versionName
         version.text = "${getString(R.string.version)} : $versionName"
+    }
 
+    private fun setupPrivacyPolicyButton() {
         val privacyPolicyButton = findViewById<Button>(R.id.privacy_policy_button)
         privacyPolicyButton.setOnClickListener {
             val url = "https://jmmdevelopment.github.io/app/privacy-policy.html"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
-
-        setBottomNavigationView()
     }
 
     private fun setBottomNavigationView() {

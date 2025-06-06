@@ -15,38 +15,28 @@ object RecipeRepository {
         return try {
             val collection = db.collection("recipes")
             val baseQuery = when {
-                // ✅ Caso 1: Categoria = "Todas" e tem texto
                 category == "Todas" && query.isNotBlank() -> {
                     collection
                         .orderBy("title")
                         .startAt(query)
-                        .endAt(query + '\uf8ff')
+                        .endAt("$query\uf8ff")
                 }
-
-                // ✅ Caso 2: Categoria selecionada, sem texto
                 category != "Todas" && query.isBlank() -> {
                     collection
                         .whereEqualTo("category", category)
                         .orderBy("title")
                 }
-
-                // ✅ Caso 3: Categoria selecionada, e texto digitado
                 category != "Todas" && query.isNotBlank() -> {
                     collection
                         .whereEqualTo("category", category)
                         .orderBy("title")
                         .startAt(query)
-                        .endAt(query + '\uf8ff')
+                        .endAt("$query\uf8ff")
                 }
-
-                // ✅ Caso 4: Nenhum filtro, nem texto
-                else -> {
-                    collection.orderBy("title")
-                }
+                else -> collection.orderBy("title")
             }
 
             val result = baseQuery.get().await()
-
             result.documents.mapNotNull { it.toObject(Recipe::class.java) }
 
         } catch (e: Exception) {
@@ -54,10 +44,6 @@ object RecipeRepository {
             emptyList()
         }
     }
-
-
-
-
 
     suspend fun loadAllRecipes(): List<Recipe> {
         return try {
@@ -72,7 +58,8 @@ object RecipeRepository {
         return try {
             val result = db.collection("recipes")
                 .whereEqualTo("category", category)
-                .get().await()
+                .get()
+                .await()
             result.mapNotNull { it.toObject(Recipe::class.java) }
         } catch (e: Exception) {
             emptyList()
@@ -80,13 +67,14 @@ object RecipeRepository {
     }
 
     suspend fun loadRandomRecipe(): Recipe? {
-        val randomKey = (0..1000000).random()
+        val randomKey = (0..1_000_000).random()
         return try {
             val result = db.collection("recipes")
                 .whereGreaterThanOrEqualTo("randomIndex", randomKey)
                 .orderBy("randomIndex")
                 .limit(1)
-                .get().await()
+                .get()
+                .await()
             result.firstOrNull()?.toObject(Recipe::class.java)
         } catch (e: Exception) {
             null
@@ -98,7 +86,8 @@ object RecipeRepository {
             val result = db.collection("recipes")
                 .document(recipeId)
                 .collection("ingredients")
-                .get().await()
+                .get()
+                .await()
             result.mapNotNull { it.toObject(Ingredients::class.java) }
         } catch (e: Exception) {
             emptyList()
@@ -111,7 +100,8 @@ object RecipeRepository {
                 .document(recipeId)
                 .collection("instructions")
                 .orderBy("step")
-                .get().await()
+                .get()
+                .await()
             result.mapNotNull { it.toObject(Instructions::class.java) }
         } catch (e: Exception) {
             emptyList()
@@ -125,14 +115,14 @@ object RecipeRepository {
             val recipeRef = db.collection("recipes").document(recipe.id)
             batch.set(recipeRef, recipe.copy(ingredients = emptyList(), instructions = emptyList()))
 
-            for (ingredient in recipe.ingredients) {
+            recipe.ingredients.forEach { ingredient ->
                 val ingredientRef = recipeRef.collection("ingredients").document()
                 batch.set(ingredientRef, ingredient)
             }
 
-            for (i in recipe.instructions.indices) {
+            recipe.instructions.forEachIndexed { index, instructionText ->
                 val instructionRef = recipeRef.collection("instructions").document()
-                batch.set(instructionRef, Instructions(step = i + 1, text = recipe.instructions[i]))
+                batch.set(instructionRef, Instructions(step = index + 1, text = instructionText))
             }
         }
 

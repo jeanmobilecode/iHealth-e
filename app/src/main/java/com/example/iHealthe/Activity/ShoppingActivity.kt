@@ -1,8 +1,6 @@
 package com.example.iHealthe.Activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -28,7 +26,6 @@ class ShoppingActivity : AppCompatActivity() {
     private lateinit var adapter: AdapterShopping
     private lateinit var emptyStateLayout: ConstraintLayout
     private lateinit var bottomNavigationView: BottomNavigationView
-
     private lateinit var cardRemoveAll: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,47 +33,45 @@ class ShoppingActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
         setContentView(R.layout.activity_shopping)
 
-        shoppingPreferences = ShoppingPreferences(this)
-
-        ingredientList = shoppingPreferences.getShoppingList()
-
-        emptyStateLayout = findViewById(R.id.emptyStateLayout)
-        cardRemoveAll = findViewById(R.id.cardRemoveAll)
-
-        shoppingRecyclerView = findViewById(R.id.shoppingRecyclerView)
-        shoppingRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-
-        adapter = AdapterShopping(ingredientList, this, emptyStateLayout, cardRemoveAll)
-        shoppingRecyclerView.adapter = adapter
-
-        adsSetup()
+        initViews()
+        setupRecyclerView()
+        setupAds()
+        setupRemoveAll()
+        setupBottomNavigation()
 
         adapter.checkEmptyState()
-
-        removeAllIngredients()
-
-        setBottomNavigationView()
     }
 
-    private fun adsSetup() {
+    private fun initViews() {
+        shoppingPreferences = ShoppingPreferences(this)
+        ingredientList = shoppingPreferences.getShoppingList()
+
+        shoppingRecyclerView = findViewById(R.id.shoppingRecyclerView)
+        emptyStateLayout = findViewById(R.id.emptyStateLayout)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        cardRemoveAll = findViewById(R.id.cardRemoveAll)
+    }
+
+    private fun setupRecyclerView() {
+        adapter = AdapterShopping(ingredientList, this, emptyStateLayout, cardRemoveAll)
+        shoppingRecyclerView.layoutManager = LinearLayoutManager(this)
+        shoppingRecyclerView.adapter = adapter
+    }
+
+    private fun setupAds() {
         MobileAds.initialize(this) {}
-
         val adView = findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+        adView.loadAd(AdRequest.Builder().build())
     }
 
-    private fun removeAllIngredients() {
-        val cardRemoveAll: CardView = findViewById(R.id.cardRemoveAll)
+    private fun setupRemoveAll() {
         cardRemoveAll.setOnClickListener {
             adapter.removeAllItems()
-            Toast.makeText(this, "Lista apagada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.list_cleared), Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun setBottomNavigationView() {
+    private fun setupBottomNavigation() {
         bottomNavigationView.setupNavigation(R.id.nav_shopping, this)
     }
 
@@ -84,5 +79,4 @@ class ShoppingActivity : AppCompatActivity() {
         super.onResume()
         bottomNavigationView.selectedItemId = R.id.nav_shopping
     }
-
 }

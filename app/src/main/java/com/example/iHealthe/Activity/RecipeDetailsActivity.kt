@@ -39,51 +39,45 @@ class RecipeDetailsActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
         setContentView(R.layout.activity_recipe_details)
 
-        MobileAds.initialize(this) {}
+        initializeAds()
+        setupToolbar()
 
-        val adView = findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-
-        val recipe = intent.getParcelableExtra<Recipe>("RECIPE")!!
-
+        val recipe = intent.getParcelableExtra<Recipe>("RECIPE") ?: return
         recipeViewModel.setCurrentRecipeId(recipe.id)
 
+        setRecipeInfo(recipe)
+        setupIngredients()
+        setupInstructions()
+        setupShareButton(recipe)
+    }
+
+    private fun initializeAds() {
+        MobileAds.initialize(this) {}
+        findViewById<AdView>(R.id.adView).loadAd(AdRequest.Builder().build())
+    }
+
+    private fun setupToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        setRecipeInfo(recipe)
-        ingredientsSetup()
-        instructionsSetup()
-        shareRecipe(recipe)
-
+        supportActionBar?.apply {
+            title = ""
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
-    private fun setRecipeInfo(recipe: Recipe){
-        val title: TextView = findViewById(R.id.recipeTitle)
-        val recipeImage: ImageView = findViewById(R.id.recipeImage)
-        val kcal: TextView = findViewById(R.id.kcalText)
-        val protein: TextView = findViewById(R.id.proteinText)
-        val carbs: TextView = findViewById(R.id.carbsText)
-        val fat: TextView = findViewById(R.id.fatText)
-        val time: TextView = findViewById(R.id.clockText)
+    private fun setRecipeInfo(recipe: Recipe) {
+        findViewById<TextView>(R.id.recipeTitle).text = recipe.title
+        findViewById<TextView>(R.id.kcalText).text = "${recipe.kcal} kcal"
+        findViewById<TextView>(R.id.proteinText).text = "${recipe.protein}g"
+        findViewById<TextView>(R.id.carbsText).text = "${recipe.carbohydrates}g"
+        findViewById<TextView>(R.id.fatText).text = "${recipe.fat}g"
+        findViewById<TextView>(R.id.clockText).text = "${recipe.time} min"
 
-        title.text = recipe.title
-
-        val imageResId = recipeImage.context.resources.getIdentifier(recipe.image, "drawable", recipeImage.context.packageName)
-        recipeImage.setImageResource(imageResId)
-
-        kcal.text = "${recipe.kcal} kcal"
-        protein.text = "${recipe.protein}g"
-        carbs.text = "${recipe.carbohydrates}g"
-        fat.text = "${recipe.fat}g"
-        time.text = "${recipe.time}min"
+        val imageResId = resources.getIdentifier(recipe.image, "drawable", packageName)
+        findViewById<ImageView>(R.id.recipeImage).setImageResource(imageResId)
     }
 
-    private fun instructionsSetup(){
-        // Instruções RecyclerView
+    private fun setupInstructions() {
         instructionRecyclerView = findViewById(R.id.instructionsRecyclerView)
         instructionRecyclerView.layoutManager = LinearLayoutManager(this)
         instructionAdapter = AdapterInstructions(emptyList())
@@ -94,8 +88,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun ingredientsSetup(){
-        // Ingredientes RecyclerView
+    private fun setupIngredients() {
         ingredientsRecyclerView = findViewById(R.id.ingredients)
         ingredientsRecyclerView.layoutManager = LinearLayoutManager(this)
         ingredientsAdapter = AdapterIngredients(this, emptyList())
@@ -106,39 +99,38 @@ class RecipeDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun shareRecipe(recipe: Recipe){
+    private fun setupShareButton(recipe: Recipe) {
         shareButton = findViewById(R.id.shareButton)
-        val appLink = "https://play.google.com/store/apps/details?id=${packageName}"
+        val appLink = "https://play.google.com/store/apps/details?id=$packageName"
 
         shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_SUBJECT, "Confira esta receita no MacroUp!")
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.explore_recipes))
                 putExtra(
                     Intent.EXTRA_TEXT,
                     """
-                    ${recipe.title}
-
-                    Categoria: ${recipe.category}
-                    Tempo de preparo: ${recipe.time} min
-
-                    Macros por porção:
-                    - Proteínas: ${recipe.protein}
-                    - Carboidratos: ${recipe.carbohydrates}
-                    - Gorduras: ${recipe.fat}
-
-                    Veja os ingredientes e instruções no MacroUp:
-
-                    $appLink
-                    """.trimIndent()
+                ${recipe.title}
+                
+                ${getString(R.string.category)} ${recipe.category}
+                ${getString(R.string.preparation_time)} ${recipe.time} min
+                
+                ${getString(R.string.macros_per_serving)}
+                - ${getString(R.string.protein)} ${recipe.protein}g
+                - ${getString(R.string.carbohydrates)}: ${recipe.carbohydrates}g
+                - ${getString(R.string.fat)}: ${recipe.fat}g
+                
+                ${getString(R.string.explore_ingredients_instructions)}
+                $appLink
+            """.trimIndent()
                 )
             }
-            startActivity(Intent.createChooser(shareIntent, "Compartilhar via"))
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_on)))
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 }

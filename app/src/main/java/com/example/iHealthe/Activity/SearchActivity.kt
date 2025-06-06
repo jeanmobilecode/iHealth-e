@@ -1,10 +1,11 @@
 package com.example.iHealthe.Activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -30,15 +31,17 @@ import kotlinx.coroutines.launch
 
 class SearchActivity : AppCompatActivity() {
 
+    private val recipeViewModel: RecipeViewModel by viewModels()
+
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipeAdapter: AdapterRecipe
     private lateinit var emptyStateLayout: ConstraintLayout
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var searchResultsText: TextView
+
     private var selectedCategory: String = "Todas"
     private var searchJob: Job? = null
-
-    private val recipeViewModel: RecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,92 +49,81 @@ class SearchActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
         setContentView(R.layout.activity_search)
 
+        initViews()
+        setupRecyclerView()
+        setupChipGroup()
+        setupAds()
+        setupSearchView()
+        setupQueryListener()
+        observeRecipes()
+        setupBottomNavigation()
+        checkEmptyState()
+    }
+
+    private fun initViews() {
         recyclerView = findViewById(R.id.recycler_view)
+        emptyStateLayout = findViewById(R.id.emptyStateLayout)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        searchResultsText = findViewById(R.id.search_results_txt)
+        searchView = findViewById(R.id.search_view)
+    }
+
+    private fun setupRecyclerView() {
         recipeAdapter = AdapterRecipe(this, arrayListOf())
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recipeAdapter
-        emptyStateLayout = findViewById(R.id.emptyStateLayout)
-        bottomNavigationView = findViewById(R.id.bottomNavigationView)
-
-        chipGroupSetup()
-        adsSetup()
-        searchViewSetup()
-        queryTextListener()
-        setBottomNavigationView()
-        checkEmptyState()
-        observeRecipes()
     }
 
-    private fun checkEmptyState() {
-        val isEmpty = recipeAdapter.itemCount == 0
-        emptyStateLayout.visibility = if (isEmpty) View.VISIBLE else View.GONE
-        recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
-    }
-
-    private fun performSearch(query: String, category: String) {
-        recipeViewModel.searchRecipes(query, category)
-    }
-
-    private fun chipGroupSetup() {
+    private fun setupChipGroup() {
         val chipGroup = findViewById<ChipGroup>(R.id.chipGroup)
-
-        val chipTodas = chipGroup.findViewWithTag<Chip>("Todas")
-        chipTodas?.isChecked = true
+        chipGroup.findViewWithTag<Chip>("Todas")?.isChecked = true
 
         chipGroup.setOnCheckedChangeListener { group, checkedId ->
             val chip = group.findViewById<Chip>(checkedId)
             selectedCategory = chip?.text?.toString() ?: "Todas"
-
             val query = searchView.query.toString().trim()
 
             if (query.isNotEmpty()) {
-                performSearch(query, selectedCategory)
+                performSearch(query)
             } else {
-                recipeAdapter.updateRecipes(arrayListOf())
-                checkEmptyState()
+                clearSearchResults()
             }
         }
     }
 
-    private fun adsSetup() {
+    private fun setupAds() {
         MobileAds.initialize(this) {}
         val adView = findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+        adView.loadAd(AdRequest.Builder().build())
     }
 
-    private fun searchViewSetup() {
-        searchView = findViewById(R.id.search_view)
-        searchView.isIconified = false
-        searchView.queryHint = getString(R.string.search_hint)
+    private fun setupSearchView() {
+        searchView.apply {
+            isIconified = false
+            queryHint = getString(R.string.search_hint)
 
-        val plate = searchView.findViewById<View>(androidx.appcompat.R.id.search_plate)
-        plate?.setBackgroundColor(Color.TRANSPARENT)
+            findViewById<View>(androidx.appcompat.R.id.search_plate)?.setBackgroundColor(Color.TRANSPARENT)
 
-        val closeButton = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
-        closeButton.setOnClickListener {
-            searchView.setQuery("", false)
-            searchView.clearFocus()
-
-            recipeAdapter.updateRecipes(arrayListOf())
-            checkEmptyState()
+            findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)?.setOnClickListener {
+                setQuery("", false)
+                clearFocus()
+                clearSearchResults()
+            }
         }
     }
 
-    private fun queryTextListener() {
+    private fun setupQueryListener() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchJob?.cancel()
-
                 val text = query?.trim() ?: ""
-                if (text.isNotEmpty()) {
-                    performSearch(text, selectedCategory)
-                } else {
-                    recipeAdapter.updateRecipes(arrayListOf())
-                    checkEmptyState()
-                }
 
+                if (text.isNotEmpty()) {
+                    performSearch(text)
+                } else {
+                    clearSearchResults()
+                }
 
                 hideKeyboard()
                 searchView.clearFocus()
@@ -141,18 +133,16 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 searchJob?.cancel()
-
                 val text = newText?.trim() ?: ""
 
                 if (text.isEmpty()) {
-                    recipeAdapter.updateRecipes(arrayListOf())
-                    checkEmptyState()
+                    clearSearchResults()
                     return true
                 }
 
                 searchJob = lifecycleScope.launch {
                     delay(500)
-                    performSearch(text, selectedCategory)
+                    performSearch(text)
                 }
 
                 return true
@@ -160,9 +150,8 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    fun hideKeyboard() {
-        val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
-        imm.hideSoftInputFromWindow(searchView.windowToken, 0)
+    private fun performSearch(query: String) {
+        recipeViewModel.searchRecipes(query, selectedCategory)
     }
 
     private fun observeRecipes() {
@@ -172,7 +161,25 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBottomNavigationView() {
+    private fun checkEmptyState() {
+        val isEmpty = recipeAdapter.itemCount == 0
+
+        emptyStateLayout.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        searchResultsText.text = if (isEmpty) "" else getString(R.string.search_results)
+    }
+
+    private fun clearSearchResults() {
+        recipeAdapter.updateRecipes(arrayListOf())
+        checkEmptyState()
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(searchView.windowToken, 0)
+    }
+
+    private fun setupBottomNavigation() {
         bottomNavigationView.setupNavigation(R.id.nav_search, this)
     }
 

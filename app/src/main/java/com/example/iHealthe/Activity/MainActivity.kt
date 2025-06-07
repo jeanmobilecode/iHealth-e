@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,7 @@ import com.example.iHealthe.utils.setupNavigation
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recipeAdapter: AdapterRecipe
     private lateinit var bottomNavigationView: BottomNavigationView
     private var loadedRecipes: ArrayList<Recipe>? = null
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -59,6 +62,8 @@ class MainActivity : AppCompatActivity() {
         val adView = findViewById<AdView>(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+
+        authentication()
         adView.loadAd(adRequest)
         setupRecyclerView()
         setBottomNavigationView()
@@ -67,6 +72,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun authentication(){
+        auth = FirebaseAuth.getInstance()
+
+        auth.signInAnonymously()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    Log.d("AuthTry", "Login anônimo com UID: ${user?.uid}")
+                } else {
+                    Log.w("AuthTry", "Falha no login anônimo", task.exception)
+                }
+            }
+    }
 
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

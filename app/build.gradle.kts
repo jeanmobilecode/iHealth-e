@@ -38,6 +38,10 @@ android {
 }
 
 dependencies {
+    //Autenticacao Firestore
+    implementation ("com.google.firebase:firebase-auth-ktx:22.1.0")  // ou versão mais recente
+
+
     //AdMob lite
     implementation ("com.google.android.gms:play-services-ads-lite:22.6.0")
 

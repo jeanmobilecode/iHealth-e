@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             ads:adSize="BANNER"
             app:layout_constraintTop_toBottomOf="@+id/lineView"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+            ads:adUnitId="ca-app-pub-9589405733905435/2311979700" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/recipeImage"

@@ -17,9 +17,9 @@ import com.example.iHealthe.RecipeData.RecipeViewModel
 import com.example.iHealthe.Adapter.AdapterIngredients
 import com.example.iHealthe.Adapter.AdapterInstructions
 import com.example.iHealthe.Adapter.Recipe
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 class RecipeDetailsActivity : AppCompatActivity() {
 
@@ -32,6 +32,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private lateinit var instructionRecyclerView: RecyclerView
 
     private lateinit var shareButton: Button
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recipe_details)
 
         initializeAds()
+        loadInterstitialAd()
         setupToolbar()
 
         val recipe = intent.getParcelableExtra<Recipe>("RECIPE") ?: return
@@ -54,6 +56,46 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private fun initializeAds() {
         MobileAds.initialize(this) {}
         findViewById<AdView>(R.id.adView).loadAd(AdRequest.Builder().build())
+    }
+
+    private fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            this,
+            "ca-app-pub-9589405733905435/4940344176",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    mInterstitialAd = ad
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                }
+            }
+        )
+    }
+
+    private fun showInterstitial(afterAdAction: () -> Unit) {
+        mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                mInterstitialAd = null
+                loadInterstitialAd()
+                afterAdAction()
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                mInterstitialAd = null
+                loadInterstitialAd()
+                afterAdAction()
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                mInterstitialAd = null
+            }
+        }
+
+        mInterstitialAd?.show(this) ?: afterAdAction()
     }
 
     private fun setupToolbar() {
@@ -101,32 +143,35 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
     private fun setupShareButton(recipe: Recipe) {
         shareButton = findViewById(R.id.shareButton)
-        val appLink = "https://play.google.com/store/apps/details?id=$packageName"
-
         shareButton.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.explore_recipes))
-                putExtra(
-                    Intent.EXTRA_TEXT,
-                    """
+            showInterstitial { shareRecipe(recipe) }
+        }
+    }
+
+    private fun shareRecipe(recipe: Recipe) {
+        val appLink = "https://play.google.com/store/apps/details?id=$packageName"
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.explore_recipes))
+            putExtra(
+                Intent.EXTRA_TEXT,
+                """
                 ${recipe.title}
-                
+
                 ${getString(R.string.category)} ${recipe.category}
                 ${getString(R.string.preparation_time)} ${recipe.time} min
-                
+
                 ${getString(R.string.macros_per_serving)}
                 - ${getString(R.string.protein)} ${recipe.protein}g
                 - ${getString(R.string.carbohydrates)}: ${recipe.carbohydrates}g
                 - ${getString(R.string.fat)}: ${recipe.fat}g
-                
+
                 ${getString(R.string.explore_ingredients_instructions)}
                 $appLink
             """.trimIndent()
-                )
-            }
-            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_on)))
+            )
         }
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_on)))
     }
 
     override fun onSupportNavigateUp(): Boolean {

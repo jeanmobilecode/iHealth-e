@@ -24,7 +24,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-9589405733905435~8670931542" />
 
         <activity
             android:name=".Activity.RandomRecipesActivity"

@@ -1,15 +1,53 @@
+# Diretórios do sistema de build
+.gradle/
+.idea/
+build/
+app/build/
+captures/
+
+# Arquivos de build e pacotes
+*.apk
+*.ap_
+*.aab
+
+# Logs e rastreamentos
+*.log
+*.trace
+
+# Arquivos de cache
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.hprof
+
+# Android Studio
 local.properties
+*.iws
+*.ipr
+*.swp
+
+# Arquivos gerados
+gen/
+bin/
+out/
+
+# Configurações pessoais
+.DS_Store
+*.class
+
+# Arquivos temporários
+*.tmp
+*.bak
+
+# Arquivos do Firebase (opcional ignorar Analytics debug, dependendo do uso)
+firebase-debug.log
+
+# Arquivos do sistema operacional
+Thumbs.db
+desktop.ini
+
+# Ignorar configurações do keystore (se houver)
+*.jks
+*.keystore
+
+# Evitar arquivos grandes não versionáveis
+app/release/*.aab
+*.trace

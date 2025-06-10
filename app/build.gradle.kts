@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.iHealthe"
+    namespace = "com.logicalayer.ihealthe"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.iHealthe"
+        applicationId = "com.logicalayer.ihealthe"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

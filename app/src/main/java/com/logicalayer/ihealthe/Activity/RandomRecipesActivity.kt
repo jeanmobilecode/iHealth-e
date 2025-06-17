@@ -1,6 +1,7 @@
 package com.logicalayer.ihealthe.Activity
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -34,6 +35,7 @@ class RandomRecipesActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var progressBar: ProgressBar
 
+
     private val recipeViewModel: RecipeViewModel by viewModels()
 
     private var mInterstitialAd: InterstitialAd? = null
@@ -54,7 +56,10 @@ class RandomRecipesActivity : AppCompatActivity() {
 
         loadInterstitialAd()
         handleNewRecipeButton()
+
+
     }
+
 
     private fun initializeViews() {
         img = findViewById(R.id.recipeImage)

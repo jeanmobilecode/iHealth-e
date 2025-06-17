@@ -38,7 +38,7 @@ class AboutActivity : AppCompatActivity() {
     private fun setupPrivacyPolicyButton() {
         val privacyPolicyButton = findViewById<Button>(R.id.privacy_policy_button)
         privacyPolicyButton.setOnClickListener {
-            val url = "https://jmmdevelopment.github.io/app/privacy-policy.html"
+            val url = "https://jeanmobilecode.github.io/iHealth-e/privacy-policy.html"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
     }

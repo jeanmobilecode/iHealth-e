@@ -12,7 +12,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:cardCornerRadius="50dp"
-        app:cardElevation="8dp">
+        >
 
         <ImageView
             android:id="@+id/categoryIcon"

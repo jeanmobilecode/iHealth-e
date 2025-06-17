@@ -13,8 +13,8 @@ android {
         applicationId = "com.logicalayer.ihealthe"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,7 +39,7 @@ android {
 
 dependencies {
     //Autenticacao Firestore
-    implementation ("com.google.firebase:firebase-auth-ktx:22.1.0")  // ou versão mais recente
+    implementation ("com.google.firebase:firebase-auth-ktx:22.1.0")
 
 
     //AdMob lite

@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.logicalayer.ihealthe.Adapter.AdapterRecipe
 import androidx.appcompat.app.AlertDialog
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.logicalayer.ihealthe.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.logicalayer.ihealthe.RecipeData.RecipeViewModel
@@ -28,6 +30,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
+import com.logicalayer.ihealthe.RecipeData.RecipeRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,6 +76,8 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigationView()
         generateRandomRecipe()
         observeRecipes()
+
+
 
     }
 

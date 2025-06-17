@@ -6,34 +6,44 @@ import com.logicalayer.ihealthe.Adapter.Instructions
 import com.logicalayer.ihealthe.Adapter.Recipe
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import java.text.Normalizer
 
 object RecipeRepository {
 
     private val db = FirebaseFirestore.getInstance()
 
+    fun normalizeText(text: String): String {
+        return Normalizer.normalize(text.lowercase(), Normalizer.Form.NFD)
+            .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+    }
+
     suspend fun getRecipesFiltered(query: String, category: String): List<Recipe> {
         return try {
+            val normalizedQuery = normalizeText(query)
             val collection = db.collection("recipes")
             val baseQuery = when {
-                category == "Todas" && query.isNotBlank() -> {
+                category == "Todas" && normalizedQuery.isNotBlank() -> {
                     collection
-                        .orderBy("title")
-                        .startAt(query)
-                        .endAt("$query\uf8ff")
+                        .orderBy("title_normalized")
+                        .startAt(normalizedQuery)
+                        .endAt("$normalizedQuery\uf8ff")
                 }
-                category != "Todas" && query.isBlank() -> {
-                    collection
-                        .whereEqualTo("category", category)
-                        .orderBy("title")
-                }
-                category != "Todas" && query.isNotBlank() -> {
+
+                category != "Todas" && normalizedQuery.isBlank() -> {
                     collection
                         .whereEqualTo("category", category)
-                        .orderBy("title")
-                        .startAt(query)
-                        .endAt("$query\uf8ff")
+                        .orderBy("title_normalized")
                 }
-                else -> collection.orderBy("title")
+
+                category != "Todas" && normalizedQuery.isNotBlank() -> {
+                    collection
+                        .whereEqualTo("category", category)
+                        .orderBy("title_normalized")
+                        .startAt(normalizedQuery)
+                        .endAt("$normalizedQuery\uf8ff")
+                }
+
+                else -> collection.orderBy("title_normalized")
             }
 
             val result = baseQuery.get().await()
@@ -44,6 +54,7 @@ object RecipeRepository {
             emptyList()
         }
     }
+
 
     suspend fun loadAllRecipes(): List<Recipe> {
         return try {

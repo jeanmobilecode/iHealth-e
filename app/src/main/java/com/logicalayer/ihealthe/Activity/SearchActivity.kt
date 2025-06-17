@@ -157,21 +157,45 @@ class SearchActivity : AppCompatActivity() {
     private fun observeRecipes() {
         recipeViewModel.recipeList.observe(this) { recipes ->
             recipeAdapter.updateRecipes(ArrayList(recipes))
-            checkEmptyState()
+            val currentQuery = searchView.query.toString().trim()
+            checkEmptyState(currentQuery)
         }
     }
 
-    private fun checkEmptyState() {
+    private fun checkEmptyState(query: String = "") {
         val isEmpty = recipeAdapter.itemCount == 0
 
-        emptyStateLayout.visibility = if (isEmpty) View.VISIBLE else View.GONE
-        recyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
-        searchResultsText.text = if (isEmpty) "" else getString(R.string.search_results)
+        if (isEmpty) {
+            emptyStateLayout.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+
+            val emptyTitle = findViewById<TextView>(R.id.title_empty_state)
+            val emptySubtitle = findViewById<TextView>(R.id.subtitle_empty_state)
+
+            emptySubtitle.text = if(query.isBlank()) {
+                getString(R.string.search_for_your_recipes)
+            } else {
+                getString(R.string.do_a_new_search)
+            }
+
+            emptyTitle.text = if (query.isBlank()) {
+                getString(R.string.search_something)
+            } else {
+                getString(R.string.no_recipes_found)
+            }
+
+            searchResultsText.text = ""
+        } else {
+            emptyStateLayout.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            searchResultsText.text = getString(R.string.search_results)
+        }
     }
+
 
     private fun clearSearchResults() {
         recipeAdapter.updateRecipes(arrayListOf())
-        checkEmptyState()
+        checkEmptyState("")
     }
 
     private fun hideKeyboard() {

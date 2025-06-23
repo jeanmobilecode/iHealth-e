@@ -17,33 +17,18 @@ object RecipeRepository {
             .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
     }
 
-    suspend fun getRecipesFiltered(query: String, category: String): List<Recipe> {
+    suspend fun getRecipesFiltered(query: String): List<Recipe> {
         return try {
             val normalizedQuery = normalizeText(query)
             val collection = db.collection("recipes")
-            val baseQuery = when {
-                category == "Todas" && normalizedQuery.isNotBlank() -> {
-                    collection
-                        .orderBy("title_normalized")
-                        .startAt(normalizedQuery)
-                        .endAt("$normalizedQuery\uf8ff")
-                }
 
-                category != "Todas" && normalizedQuery.isBlank() -> {
-                    collection
-                        .whereEqualTo("category", category)
-                        .orderBy("title_normalized")
-                }
-
-                category != "Todas" && normalizedQuery.isNotBlank() -> {
-                    collection
-                        .whereEqualTo("category", category)
-                        .orderBy("title_normalized")
-                        .startAt(normalizedQuery)
-                        .endAt("$normalizedQuery\uf8ff")
-                }
-
-                else -> collection.orderBy("title_normalized")
+            val baseQuery = if (normalizedQuery.isNotBlank()) {
+                collection
+                    .orderBy("title_normalized")
+                    .startAt(normalizedQuery)
+                    .endAt("$normalizedQuery\uf8ff")
+            } else {
+                collection.orderBy("title_normalized")
             }
 
             val result = baseQuery.get().await()
@@ -56,9 +41,11 @@ object RecipeRepository {
     }
 
 
+
+
     suspend fun loadAllRecipes(): List<Recipe> {
         return try {
-            val result = db.collection("recipes").limit(20).get().await()
+            val result = db.collection("recipes").limit(35).get().await()
             result.mapNotNull { it.toObject(Recipe::class.java) }
         } catch (e: Exception) {
             emptyList()

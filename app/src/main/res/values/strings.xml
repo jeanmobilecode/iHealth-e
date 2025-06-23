@@ -61,4 +61,9 @@
     <string name="search_for_your_recipes">Para começar a buscar receitas!\n\n</string>
     <string name="do_a_new_search">Explore com uma nova busca!</string>
     <string name="no_recipes_found">Nao encontramos nenhuma receita com este termo.</string>
+    <string name="protein_sources">Fontes de proteína</string>
+    <string name="carbohydrates_sources">Fonte de carboidrato</string>
+    <string name="fat_sources">Fontes de gordura</string>
+    <string name="dont_show_again">Não mostrar novamente</string>
+    <string name="icons_meaning">Significado dos ícones</string>
 </resources>

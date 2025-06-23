@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -76,8 +77,32 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigationView()
         generateRandomRecipe()
         observeRecipes()
+        showTutorialDialogIfFirstTime()
 
+    }
 
+    private fun showTutorialDialogIfFirstTime() {
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val alreadyShown = sharedPref.getBoolean("tutorial_shown", false)
+
+        if (alreadyShown) return
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_icon_tutorial, null)
+        val checkBox = dialogView.findViewById<CheckBox>(R.id.check_do_not_show)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.icons_meaning))
+            .setView(dialogView)
+            .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                if (checkBox.isChecked) {
+                    sharedPref.edit().putBoolean("tutorial_shown", true).apply()
+                }
+            }
+            .create()
+
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(ContextCompat.getColor(this, R.color.mainGreen))
 
     }
 

@@ -3,6 +3,7 @@ package com.logicalayer.ihealthe.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,11 +25,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import android.view.ViewGroup.LayoutParams
+
 
 class SearchActivity : AppCompatActivity() {
 
@@ -39,8 +41,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var emptyStateLayout: ConstraintLayout
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var searchResultsText: TextView
+    private lateinit var nestedView: NestedScrollView
+    private lateinit var params: LayoutParams
 
-    private var selectedCategory: String = "Todas"
     private var searchJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +54,6 @@ class SearchActivity : AppCompatActivity() {
 
         initViews()
         setupRecyclerView()
-        setupChipGroup()
         setupAds()
         setupSearchView()
         setupQueryListener()
@@ -60,35 +62,22 @@ class SearchActivity : AppCompatActivity() {
         checkEmptyState()
     }
 
+
     private fun initViews() {
         recyclerView = findViewById(R.id.recycler_view)
         emptyStateLayout = findViewById(R.id.emptyStateLayout)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
         searchResultsText = findViewById(R.id.search_results_txt)
         searchView = findViewById(R.id.search_view)
+        nestedView = findViewById(R.id.nested_view)
+        params = nestedView.layoutParams
+
     }
 
     private fun setupRecyclerView() {
         recipeAdapter = AdapterRecipe(this, arrayListOf())
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recipeAdapter
-    }
-
-    private fun setupChipGroup() {
-        val chipGroup = findViewById<ChipGroup>(R.id.chipGroup)
-        chipGroup.findViewWithTag<Chip>("Todas")?.isChecked = true
-
-        chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val chip = group.findViewById<Chip>(checkedId)
-            selectedCategory = chip?.text?.toString() ?: "Todas"
-            val query = searchView.query.toString().trim()
-
-            if (query.isNotEmpty()) {
-                performSearch(query)
-            } else {
-                clearSearchResults()
-            }
-        }
     }
 
     private fun setupAds() {
@@ -151,7 +140,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun performSearch(query: String) {
-        recipeViewModel.searchRecipes(query, selectedCategory)
+        recipeViewModel.searchRecipes(query)
     }
 
     private fun observeRecipes() {
@@ -188,6 +177,7 @@ class SearchActivity : AppCompatActivity() {
         } else {
             emptyStateLayout.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
+            params.height = 0
             searchResultsText.text = getString(R.string.search_results)
         }
     }
@@ -196,6 +186,7 @@ class SearchActivity : AppCompatActivity() {
     private fun clearSearchResults() {
         recipeAdapter.updateRecipes(arrayListOf())
         checkEmptyState("")
+        params.height = LayoutParams.WRAP_CONTENT
     }
 
     private fun hideKeyboard() {

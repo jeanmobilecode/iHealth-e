@@ -35,10 +35,10 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val _instructionsList = MutableLiveData<List<Instructions>>()
     val instructionsList: LiveData<List<Instructions>> get() = _instructionsList
 
-    fun searchRecipes(query: String, category: String) {
+    fun searchRecipes(query: String) {
         viewModelScope.launch {
             val filteredRecipes = withContext(Dispatchers.IO) {
-                RecipeRepository.getRecipesFiltered(query, category)
+                RecipeRepository.getRecipesFiltered(query)
             }
             _recipeList.value = filteredRecipes
         }

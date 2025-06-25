@@ -7,6 +7,7 @@ import com.logicalayer.ihealthe.Adapter.Recipe
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.text.Normalizer
+import kotlin.math.log
 
 object RecipeRepository {
 
@@ -15,6 +16,10 @@ object RecipeRepository {
     fun normalizeText(text: String): String {
         return Normalizer.normalize(text.lowercase(), Normalizer.Form.NFD)
             .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+    }
+
+    private fun isValidRecipe(recipe: Recipe): Boolean {
+        return recipe.title.isNotBlank()
     }
 
     suspend fun getRecipesFiltered(query: String): List<Recipe> {
@@ -40,17 +45,22 @@ object RecipeRepository {
         }
     }
 
-
-
-
     suspend fun loadAllRecipes(): List<Recipe> {
         return try {
             val result = db.collection("recipes").limit(35).get().await()
-            result.mapNotNull { it.toObject(Recipe::class.java) }
+            result.mapNotNull { doc ->
+                try {
+                    val recipe = doc.toObject(Recipe::class.java)
+                    if (isValidRecipe(recipe)) recipe else null
+                } catch (e: Exception) {
+                    null
+                }
+            }
         } catch (e: Exception) {
             emptyList()
         }
-    }
+        }
+
 
     suspend fun loadRecipesByCategory(category: String): List<Recipe> {
         return try {
@@ -73,7 +83,9 @@ object RecipeRepository {
                 .limit(1)
                 .get()
                 .await()
-            result.firstOrNull()?.toObject(Recipe::class.java)
+
+            val recipe = result.firstOrNull()?.toObject(Recipe::class.java)
+            if (recipe != null && isValidRecipe(recipe)) recipe else null
         } catch (e: Exception) {
             null
         }

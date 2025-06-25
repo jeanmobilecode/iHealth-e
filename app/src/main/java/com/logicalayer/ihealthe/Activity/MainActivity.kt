@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.logicalayer.ihealthe.Adapter.AdapterRecipe
 import androidx.appcompat.app.AlertDialog
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.logicalayer.ihealthe.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.logicalayer.ihealthe.RecipeData.RecipeViewModel
@@ -31,11 +29,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
-import com.logicalayer.ihealthe.RecipeData.RecipeRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private var loadedRecipes: ArrayList<Recipe>? = null
     private lateinit var auth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -78,6 +73,8 @@ class MainActivity : AppCompatActivity() {
         generateRandomRecipe()
         observeRecipes()
         showTutorialDialogIfFirstTime()
+
+
 
     }
 
@@ -196,8 +193,12 @@ class MainActivity : AppCompatActivity() {
     private fun observeRecipes() {
         recipeViewModel.recipeList.observe(this) { recipes ->
             if (recipes.isNotEmpty()) {
+                for(recipe in recipes){
+                    Log.i("secondloading","$recipe")
+                }
                 loadedRecipes = ArrayList(recipes)
                 updateRecipeList(loadedRecipes!!)
+
             } else {
                 Toast.makeText(this, getString(R.string.no_recipe_avaliable), Toast.LENGTH_SHORT).show()
             }

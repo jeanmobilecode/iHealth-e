@@ -1,0 +1,57 @@
+<!DOCTYPE html>Add commentMore actions
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade - iHealth-e</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; color: #333; }
+        h1 { color: #007BFF; }
+        h2 { color: #555; }
+        a { color: #007BFF; }
+    </style>
+</head>
+<body>
+
+<h1>Política de Privacidade</h1>
+
+<p><strong>Última atualização:</strong> 21 de maio de 2025</p>
+
+<p>Bem-vindo ao <strong>iHealth-e</strong>. Esta Política de Privacidade descreve como tratamos as informações no nosso aplicativo.</p>
+
+<h2>1. Coleta de Dados</h2>
+<p>O iHealth-e <strong>não coleta, armazena ou solicita dados pessoais</strong> diretamente dos usuários. Nenhuma informação pessoal, como nome, e-mail, localização ou dados sensíveis, é requerida para uso do aplicativo.</p>
+
+<h2>2. Dados de Terceiros</h2>
+<p>O aplicativo utiliza serviços de terceiros que podem coletar dados não pessoais, como:</p>
+<ul>
+    <li>Google AdMob (para exibição de anúncios)</li>
+    <li>Google Play Services</li>
+</ul>
+<p>Estes serviços podem coletar informações técnicas, como modelo do dispositivo, sistema operacional, identificadores de publicidade e dados sobre interações com anúncios.</p>
+
+<h2>3. Uso dos Dados</h2>
+<p>Os dados coletados por terceiros são utilizados para:</p>
+<ul>
+    <li>Melhorar a experiência do usuário;</li>
+    <li>Oferecer anúncios mais relevantes;</li>
+    <li>Garantir o bom funcionamento dos serviços.</li>
+</ul>
+
+<h2>4. Compartilhamento de Dados</h2>
+<p>O iHealth-e não compartilha informações pessoais dos usuários. Dados anonimizados podem ser tratados pelos provedores de anúncios e serviços externos.</p>
+
+<h2>5. Segurança</h2>
+<p>Adotamos medidas razoáveis para proteger seu uso do aplicativo. No entanto, lembre-se que nenhum sistema é completamente seguro.</p>
+
+<h2>6. Links para Sites Externos</h2>
+<p>O aplicativo pode conter links para sites externos (como loja de aplicativos ou links de redes sociais). Não somos responsáveis pelas práticas de privacidade desses sites.</p>
+
+<h2>7. Alterações nesta Política</h2>
+<p>Podemos atualizar esta política periodicamente. Recomendamos revisá-la ocasionalmente. A data da última atualização estará sempre disponível no topo.</p>
+
+<h2>8. Contato</h2>
+<p>Se tiver dúvidas sobre esta Política de Privacidade, entre em contato através do e-mail: <strong>contato.ihealthe@gmail.com</strong>.</p>
+
+</body>
+</html>

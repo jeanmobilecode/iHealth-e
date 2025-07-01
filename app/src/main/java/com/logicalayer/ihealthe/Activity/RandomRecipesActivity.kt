@@ -183,7 +183,9 @@ class RandomRecipesActivity : AppCompatActivity() {
                 - ${getString(R.string.fat)}: ${recipe.fat}g
                 
                 ${getString(R.string.explore_ingredients_instructions)}
+                
                 $appLink
+                
             """.trimIndent()
             )
         }

@@ -6,7 +6,11 @@
     android:background="@color/gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:paddingBottom="80dp">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
@@ -195,6 +199,7 @@
             app:layout_constraintTop_toBottomOf="@+id/infoContainer" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="visible"
             android:id="@+id/ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -219,17 +224,22 @@
             android:id="@+id/instructionsRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="30dp"
             android:nestedScrollingEnabled="false"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="@+id/ingredientsTitle"
             app:layout_constraintTop_toBottomOf="@+id/instructionsTitle"
+            app:layout_constraintVertical_bias="0.504"
             tools:listitem="@layout/item_instruction" />
 
         <Button
             android:id="@+id/shareButton"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
             android:backgroundTint="@color/lightGreen"
             android:text="@string/share"
             android:textStyle="bold"
@@ -237,5 +247,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/instructionsRecyclerView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

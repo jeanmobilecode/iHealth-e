@@ -28,16 +28,19 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="65dp"
             ads:layout_constraintTop_toBottomOf="@+id/adView"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:background="@color/gray"
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/explore_card"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginStart="10dp"
@@ -45,7 +48,10 @@
                     android:layout_marginEnd="10dp"
                     android:backgroundTint="@color/white"
                     android:elevation="20dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -94,10 +100,12 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginTop="40dp">
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/explore_card">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/categoryRecyclerView"
@@ -105,6 +113,7 @@
                         android:layout_height="150dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal"
                         android:scrollbars="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -131,13 +140,14 @@
                         android:layout_marginTop="4dp"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@id/chosen_for_you"
                         app:layout_constraintTop_toBottomOf="@+id/chosen_for_you"
                         tools:listitem="@layout/item_recipes_home" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 

@@ -36,7 +36,7 @@ class AdapterIngredients(
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val ingredient = ingredientsList[position]
-        holder.ingredientName.text = "${ingredient.quantity} ${ingredient.name}"
+        holder.ingredientName.text = "${ingredient.name} - ${ingredient.quantity}"
 
         holder.checkBox.setOnCheckedChangeListener(null)
 
